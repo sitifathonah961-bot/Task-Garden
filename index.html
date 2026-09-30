@@ -248,7 +248,35 @@
     <h2>🌿 Fitur Task Garden</h2>
 
     <div class="menu-grid">
+<div class="breakdown" style="margin-top:20px;">
 
+  <h2>✂️ Break It Down</h2>
+
+  <p style="font-size:14px;color:#667466;margin-bottom:15px;">
+    Pecah tugas besar menjadi langkah-langkah kecil agar lebih mudah dimulai.
+  </p>
+
+  <input
+    type="text"
+    id="bigTask"
+    placeholder="Contoh: Membuat makalah BK"
+    style="
+      width:100%;
+      padding:13px;
+      border:1px solid #ccd8c9;
+      border-radius:12px;
+      margin-bottom:10px;
+      font-size:14px;
+    "
+  >
+
+  <button onclick="createBreakdown()" style="width:100%;">
+    ✂️ Pecah Tugas
+  </button>
+
+  <div id="breakdownResult" style="margin-top:15px;"></div>
+
+</div>
       <div class="menu-card">
         <div class="icon">📝</div>
         <h3>My Tasks</h3>
