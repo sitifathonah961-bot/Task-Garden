@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Garden</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7f2;
+      color: #26352b;
+    }
+
+    .app {
+      max-width: 430px;
+      min-height: 100vh;
+      margin: auto;
+      background: #ffffff;
+    }
+
+    .header {
+      padding: 28px 22px 20px;
+      background: #dcebd8;
+      border-radius: 0 0 28px 28px;
+    }
+
+    .header p {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 18px;
+    }
+
+    .garden-card {
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+    }
+
+    .plant {
+      font-size: 55px;
+      margin-bottom: 8px;
+    }
+
+    .garden-card h2 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .garden-card p {
+      color: #66736a;
+      font-size: 13px;
+    }
+
+    .content {
+      padding: 22px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .menu-card {
+      border: none;
+      background: #f2f6ef;
+      border-radius: 18px;
+      padding: 20px 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .menu-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .menu-card h3 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .menu-card p {
+      font-size: 12px;
+      color: #6d786f;
+    }
+
+    .bottom-nav {
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 5px;
+      background: white;
+      border-top: 1px solid #eeeeee;
+    }
+
+    .nav-item {
+      border: none;
+      background: none;
+      font-size: 12px;
+      color: #59645c;
+      cursor: pointer;
+    }
+
+    .nav-item span {
+      display: block;
+      font-size: 21px;
+      margin-bottom: 3px;
+    }
+
+    @media (min-width: 700px) {
+      .app {
+        box-shadow: 0 0 25px rgba(0,0,0,0.08);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header class="header">
+      <p>Selamat datang 👋</p>
+      <h1>Task Garden</h1>
+
+      <div class="garden-card">
+        <div class="plant">🌱</div>
+        <h2>Tamanmu sedang tumbuh</h2>
+        <p>Mulai dengan menyelesaikan satu langkah kecil hari ini.</p>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <h2 class="section-title">Apa yang ingin kamu lakukan?</h2>
+
+      <div class="menu">
+
+        <button class="menu-card">
+          <div class="menu-icon">📚</div>
+          <h3>My Tasks</h3>
+          <p>Kelola tugas kuliahmu.</p>
+        </button>
+
+        <button class="menu-card">
+          <div class="menu-icon">🧩</div>
+          <h3>Break It Down</h3>
+          <p>Pecah tugas menjadi langkah kecil.</p>
+        </button>
+
+        <button class="menu-card">
+          <div class="menu-icon">🎯</div>
+          <h3>Daily Mission</h3>
+          <p>Tentukan target hari ini.</p>
+        </button>
+
+        <button class="menu-card">
+          <div class="menu-icon">💭</div>
+          <h3>Reflection</h3>
+          <p>Kenali kebiasaan belajarmu.</p>
+        </button>
+
+      </div>
+
+    </main>
+
+    <nav class="bottom-nav">
+
+      <button class="nav-item">
+        <span>🏠</span>
+        Home
+      </button>
+
+      <button class="nav-item">
+        <span>📋</span>
+        Tasks
+      </button>
+
+      <button class="nav-item">
+        <span>🌱</span>
+        Garden
+      </button>
+
+      <button class="nav-item">
+        <span>💭</span>
+        Reflect
+      </button>
+
+    </nav>
+
+  </div>
+
+</body>
+</html>
