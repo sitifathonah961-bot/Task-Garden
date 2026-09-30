@@ -10,210 +10,477 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f7f2;
-      color: #26352b;
+      background: #f4f8f1;
+      color: #26382b;
     }
 
     .app {
       max-width: 430px;
-      min-height: 100vh;
       margin: auto;
-      background: #ffffff;
+      min-height: 100vh;
+      background: white;
+      padding-bottom: 80px;
     }
 
-    .header {
-      padding: 28px 22px 20px;
-      background: #dcebd8;
-      border-radius: 0 0 28px 28px;
+    header {
+      background: #6fa36f;
+      color: white;
+      padding: 25px 20px;
+      border-radius: 0 0 25px 25px;
     }
 
-    .header p {
-      font-size: 14px;
+    header h1 {
+      font-size: 27px;
       margin-bottom: 6px;
     }
 
-    .header h1 {
-      font-size: 28px;
-      margin-bottom: 18px;
+    header p {
+      font-size: 14px;
+      opacity: 0.9;
     }
 
-    .garden-card {
-      background: white;
+    .garden {
+      margin: 20px;
+      padding: 20px;
+      background: #eef7e9;
       border-radius: 20px;
-      padding: 18px;
       text-align: center;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.06);
     }
 
     .plant {
       font-size: 55px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
-    .garden-card h2 {
-      font-size: 18px;
-      margin-bottom: 5px;
+    .garden h2 {
+      font-size: 20px;
+      margin-bottom: 6px;
     }
 
-    .garden-card p {
-      color: #66736a;
-      font-size: 13px;
+    .progress {
+      background: #d5e5d0;
+      height: 12px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 15px;
     }
 
-    .content {
-      padding: 22px;
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #6fa36f;
+      transition: 0.3s;
     }
 
-    .section-title {
-      font-size: 18px;
-      margin-bottom: 14px;
+    .section {
+      padding: 0 20px;
+    }
+
+    .section h2 {
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+
+    .task-form {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .task-form input {
+      flex: 1;
+      padding: 13px;
+      border: 1px solid #ccd8c9;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 15px;
+      background: #6fa36f;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f7faf5;
+      border: 1px solid #e0e8dd;
+      padding: 13px;
+      border-radius: 14px;
+      margin-bottom: 10px;
+    }
+
+    .task span {
+      flex: 1;
+    }
+
+    .task.done span {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+
+    .delete {
+      background: #d66b6b;
+      padding: 8px 10px;
+      font-size: 12px;
     }
 
     .menu {
+      padding: 20px;
+    }
+
+    .menu-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
 
     .menu-card {
-      border: none;
-      background: #f2f6ef;
+      background: #f4f8f1;
+      padding: 20px 15px;
       border-radius: 18px;
-      padding: 20px 12px;
-      text-align: left;
-      cursor: pointer;
-      transition: 0.2s;
+      text-align: center;
     }
 
-    .menu-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .menu-icon {
+    .menu-card .icon {
       font-size: 30px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .menu-card h3 {
       font-size: 15px;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
 
     .menu-card p {
       font-size: 12px;
-      color: #6d786f;
+      color: #667466;
     }
 
     .bottom-nav {
-      position: sticky;
+      position: fixed;
       bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      border-top: 1px solid #ddd;
       display: flex;
       justify-content: space-around;
-      padding: 12px 5px;
-      background: white;
-      border-top: 1px solid #eeeeee;
+      padding: 10px 5px;
     }
 
-    .nav-item {
-      border: none;
+    .bottom-nav button {
       background: none;
+      color: #526352;
       font-size: 12px;
-      color: #59645c;
-      cursor: pointer;
+      padding: 5px;
     }
 
-    .nav-item span {
-      display: block;
-      font-size: 21px;
-      margin-bottom: 3px;
+    .bottom-nav button.active {
+      color: #5d925d;
+      font-weight: bold;
     }
 
-    @media (min-width: 700px) {
-      .app {
-        box-shadow: 0 0 25px rgba(0,0,0,0.08);
-      }
+    .empty {
+      text-align: center;
+      color: #899589;
+      padding: 15px;
+      font-size: 14px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <header class="header">
-      <p>Selamat datang 👋</p>
-      <h1>Task Garden</h1>
+  <header>
+    <h1>🌱 Task Garden</h1>
+    <p>Tumbuhkan Kebiasaan, Selesaikan Tugas</p>
+  </header>
 
-      <div class="garden-card">
-        <div class="plant">🌱</div>
-        <h2>Tamanmu sedang tumbuh</h2>
-        <p>Mulai dengan menyelesaikan satu langkah kecil hari ini.</p>
-      </div>
-    </header>
+  <div class="garden">
+    <div class="plant" id="plant">🌱</div>
+    <h2>My Garden</h2>
+    <p id="gardenText">Mulai tambahkan tugasmu!</p>
 
-    <main class="content">
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
 
-      <h2 class="section-title">Apa yang ingin kamu lakukan?</h2>
+    <p id="progressText" style="margin-top:8px;font-size:13px;">
+      0% selesai
+    </p>
+  </div>
 
-      <div class="menu">
+  <div class="section">
 
-        <button class="menu-card">
-          <div class="menu-icon">📚</div>
-          <h3>My Tasks</h3>
-          <p>Kelola tugas kuliahmu.</p>
-        </button>
+    <h2>📝 My Tasks</h2>
 
-        <button class="menu-card">
-          <div class="menu-icon">🧩</div>
-          <h3>Break It Down</h3>
-          <p>Pecah tugas menjadi langkah kecil.</p>
-        </button>
+    <div class="task-form">
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="Contoh: Kerjakan tugas BK"
+      >
 
-        <button class="menu-card">
-          <div class="menu-icon">🎯</div>
-          <h3>Daily Mission</h3>
-          <p>Tentukan target hari ini.</p>
-        </button>
+      <button onclick="addTask()">Tambah</button>
+    </div>
 
-        <button class="menu-card">
-          <div class="menu-icon">💭</div>
-          <h3>Reflection</h3>
-          <p>Kenali kebiasaan belajarmu.</p>
-        </button>
-
-      </div>
-
-    </main>
-
-    <nav class="bottom-nav">
-
-      <button class="nav-item">
-        <span>🏠</span>
-        Home
-      </button>
-
-      <button class="nav-item">
-        <span>📋</span>
-        Tasks
-      </button>
-
-      <button class="nav-item">
-        <span>🌱</span>
-        Garden
-      </button>
-
-      <button class="nav-item">
-        <span>💭</span>
-        Reflect
-      </button>
-
-    </nav>
+    <div id="taskList"></div>
 
   </div>
+
+  <div class="menu">
+
+    <h2>🌿 Fitur Task Garden</h2>
+
+    <div class="menu-grid">
+
+      <div class="menu-card">
+        <div class="icon">📝</div>
+        <h3>My Tasks</h3>
+        <p>Catat tugas yang perlu diselesaikan.</p>
+      </div>
+
+      <div class="menu-card">
+        <div class="icon">✂️</div>
+        <h3>Break It Down</h3>
+        <p>Pecah tugas besar menjadi langkah kecil.</p>
+      </div>
+
+      <div class="menu-card">
+        <div class="icon">🎯</div>
+        <h3>Daily Mission</h3>
+        <p>Tentukan target kecil hari ini.</p>
+      </div>
+
+      <div class="menu-card">
+        <div class="icon">💭</div>
+        <h3>Reflection</h3>
+        <p>Refleksi kebiasaan belajar.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="bottom-nav">
+
+  <button class="active">
+    🏠<br>Home
+  </button>
+
+  <button onclick="focusTasks()">
+    📝<br>Tasks
+  </button>
+
+  <button onclick="focusGarden()">
+    🌱<br>Garden
+  </button>
+
+  <button>
+    💭<br>Reflect
+  </button>
+
+</div>
+
+<script>
+
+  let tasks = JSON.parse(localStorage.getItem("taskGardenTasks")) || [];
+
+  function saveTasks() {
+    localStorage.setItem(
+      "taskGardenTasks",
+      JSON.stringify(tasks)
+    );
+  }
+
+  function addTask() {
+
+    const input = document.getElementById("taskInput");
+    const text = input.value.trim();
+
+    if (text === "") {
+      alert("Tulis tugas terlebih dahulu ya 😊");
+      return;
+    }
+
+    tasks.push({
+      text: text,
+      done: false
+    });
+
+    input.value = "";
+
+    saveTasks();
+    displayTasks();
+  }
+
+  function toggleTask(index) {
+
+    tasks[index].done = !tasks[index].done;
+
+    saveTasks();
+    displayTasks();
+  }
+
+  function deleteTask(index) {
+
+    if (confirm("Hapus tugas ini?")) {
+
+      tasks.splice(index, 1);
+
+      saveTasks();
+      displayTasks();
+
+    }
+  }
+
+  function displayTasks() {
+
+    const list = document.getElementById("taskList");
+
+    list.innerHTML = "";
+
+    if (tasks.length === 0) {
+
+      list.innerHTML =
+        '<div class="empty">Belum ada tugas. Yuk tambahkan tugas pertama 🌱</div>';
+
+    }
+
+    tasks.forEach((task, index) => {
+
+      const div = document.createElement("div");
+
+      div.className =
+        "task" + (task.done ? " done" : "");
+
+      div.innerHTML = `
+        <input
+          type="checkbox"
+          ${task.done ? "checked" : ""}
+          onchange="toggleTask(${index})"
+        >
+
+        <span>${task.text}</span>
+
+        <button
+          class="delete"
+          onclick="deleteTask(${index})"
+        >
+          Hapus
+        </button>
+      `;
+
+      list.appendChild(div);
+
+    });
+
+    updateGarden();
+
+  }
+
+  function updateGarden() {
+
+    const total = tasks.length;
+
+    const completed =
+      tasks.filter(task => task.done).length;
+
+    let percentage = 0;
+
+    if (total > 0) {
+      percentage =
+        Math.round((completed / total) * 100);
+    }
+
+    document.getElementById("progressBar").style.width =
+      percentage + "%";
+
+    document.getElementById("progressText").innerText =
+      percentage + "% selesai";
+
+    const plant =
+      document.getElementById("plant");
+
+    const gardenText =
+      document.getElementById("gardenText");
+
+    if (percentage === 0) {
+
+      plant.innerText = "🌱";
+      gardenText.innerText =
+        "Mulai tambahkan dan selesaikan tugasmu!";
+
+    } else if (percentage < 50) {
+
+      plant.innerText = "🌿";
+      gardenText.innerText =
+        "Tanamanmu mulai tumbuh!";
+
+    } else if (percentage < 100) {
+
+      plant.innerText = "🌳";
+      gardenText.innerText =
+        "Bagus! Garden-mu semakin berkembang!";
+
+    } else {
+
+      plant.innerText = "🌸";
+      gardenText.innerText =
+        "Hebat! Semua tugas selesai!";
+
+    }
+
+  }
+
+  function focusTasks() {
+
+    document
+      .getElementById("taskInput")
+      .focus();
+
+  }
+
+  function focusGarden() {
+
+    document
+      .querySelector(".garden")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+  }
+
+  document
+    .getElementById("taskInput")
+    .addEventListener("keypress", function(event) {
+
+      if (event.key === "Enter") {
+        addTask();
+      }
+
+    });
+
+  displayTasks();
+
+</script>
 
 </body>
 </html>
