@@ -423,7 +423,111 @@
     updateGarden();
 
   }
+function createBreakdown() {
 
+  const input = document.getElementById("bigTask");
+  const result = document.getElementById("breakdownResult");
+
+  const task = input.value.trim();
+
+  if (task === "") {
+
+    alert("Tulis nama tugas terlebih dahulu ya 😊");
+    return;
+
+  }
+
+  result.innerHTML = `
+
+    <div style="
+      background:#f4f8f1;
+      padding:15px;
+      border-radius:15px;
+      margin-top:10px;
+    ">
+
+      <h3 style="margin-bottom:10px;">
+        🌱 ${task}
+      </h3>
+
+      <p style="
+        font-size:13px;
+        color:#667466;
+        margin-bottom:12px;
+      ">
+        Sekarang pecah tugas ini menjadi beberapa langkah kecil:
+      </p>
+
+      <input
+        type="text"
+        id="stepInput"
+        placeholder="Contoh: Cari materi"
+        style="
+          width:100%;
+          padding:12px;
+          border:1px solid #ccd8c9;
+          border-radius:10px;
+          margin-bottom:8px;
+        "
+      >
+
+      <button onclick="addStep()" style="width:100%;">
+        + Tambah Langkah
+      </button>
+
+      <div id="stepList" style="margin-top:12px;"></div>
+
+    </div>
+
+  `;
+
+  input.value = "";
+
+}
+
+
+function addStep() {
+
+  const input = document.getElementById("stepInput");
+  const list = document.getElementById("stepList");
+
+  const step = input.value.trim();
+
+  if (step === "") {
+
+    alert("Tulis langkah tugas terlebih dahulu 😊");
+    return;
+
+  }
+
+  const item = document.createElement("div");
+
+  item.style.cssText = `
+    background:white;
+    border:1px solid #dfe8dc;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  `;
+
+  item.innerHTML = `
+
+    <input type="checkbox">
+
+    <span style="flex:1;">
+      ${step}
+    </span>
+
+  `;
+
+  list.appendChild(item);
+
+  input.value = "";
+
+}
   function updateGarden() {
 
     const total = tasks.length;
