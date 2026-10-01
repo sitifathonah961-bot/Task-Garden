@@ -1,1458 +1,1870 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Garden</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task Garden 🌱</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    body {
-      background: #f5f7f2;
-      color: #263326;
-      padding-bottom: 80px;
-    }
+html{
+  scroll-behavior:smooth;
+}
 
-    .app {
-      width: 100%;
-      max-width: 430px;
-      margin: auto;
-      min-height: 100vh;
-      background: #ffffff;
-    }
+body{
+  font-family:Arial, Helvetica, sans-serif;
+  background:#eef6ef;
+  color:#26352a;
+  min-height:100vh;
+}
 
-    header {
-      background: #6b8e68;
-      color: white;
-      padding: 25px 20px;
-      border-radius: 0 0 25px 25px;
-    }
+button,
+input,
+textarea{
+  font-family:inherit;
+}
 
-    header h1 {
-      font-size: 27px;
-      margin-bottom: 5px;
-    }
+button{
+  cursor:pointer;
+}
 
-    header p {
-      font-size: 14px;
-      opacity: 0.9;
-    }
+.app{
+  width:100%;
+  max-width:480px;
+  min-height:100vh;
+  margin:auto;
+  background:#f8fcf8;
+  position:relative;
+  padding-bottom:90px;
+}
 
-    .content {
-      padding: 20px;
-    }
+/* ================= HEADER ================= */
 
-    .garden-card {
-      background: #edf5e9;
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
+.header{
+  background:linear-gradient(135deg,#4f8f5b,#75b67d);
+  color:white;
+  padding:22px 20px 26px;
+  border-radius:0 0 28px 28px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
 
-    .garden-icon {
-      font-size: 55px;
-      margin-bottom: 10px;
-    }
+.header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .garden-card h2 {
-      margin-bottom: 8px;
-      font-size: 21px;
-    }
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-    .garden-card p {
-      font-size: 14px;
-      color: #5f695e;
-    }
+.logo-icon{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  background:rgba(255,255,255,.2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:25px;
+}
 
-    .progress-container {
-      background: #dfe7dc;
-      height: 12px;
-      border-radius: 20px;
-      margin-top: 15px;
-      overflow: hidden;
-    }
+.logo h1{
+  font-size:21px;
+}
 
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: #6b8e68;
-      border-radius: 20px;
-      transition: 0.3s;
-    }
+.logo p{
+  font-size:12px;
+  opacity:.9;
+  margin-top:3px;
+}
 
-    .progress-text {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #596355;
-    }
+.today{
+  font-size:11px;
+  background:rgba(255,255,255,.18);
+  padding:7px 10px;
+  border-radius:20px;
+}
 
-    .section {
-      margin-bottom: 25px;
-    }
+/* ================= PAGE ================= */
 
-    .section h2 {
-      font-size: 20px;
-      margin-bottom: 12px;
-    }
+.page{
+  display:none;
+  padding:18px;
+}
 
-    .card {
-      background: #f8faf7;
-      border: 1px solid #e4e9e1;
-      border-radius: 18px;
-      padding: 17px;
-      margin-bottom: 12px;
-    }
+.page.active{
+  display:block;
+}
 
-    .card h3 {
-      font-size: 17px;
-      margin-bottom: 7px;
-    }
+.page-title{
+  margin-bottom:15px;
+}
 
-    .card p {
-      font-size: 14px;
-      color: #626b60;
-      line-height: 1.5;
-    }
+.page-title h2{
+  font-size:22px;
+  color:#2d5134;
+}
 
-    input,
-    textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #d5ddd1;
-      border-radius: 12px;
-      font-size: 14px;
-      outline: none;
-    }
+.page-title p{
+  color:#718077;
+  font-size:13px;
+  margin-top:4px;
+}
 
-    textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
+/* ================= CARDS ================= */
 
-    input:focus,
-    textarea:focus {
-      border-color: #6b8e68;
-    }
+.card{
+  background:white;
+  border-radius:20px;
+  padding:17px;
+  margin-bottom:15px;
+  box-shadow:0 4px 14px rgba(53,89,60,.07);
+  border:1px solid #edf3ed;
+}
 
-    button {
-      border: none;
-      background: #6b8e68;
-      color: white;
-      padding: 11px 15px;
-      border-radius: 12px;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 4px;
-    }
+.card-title{
+  font-size:16px;
+  font-weight:bold;
+  color:#315c39;
+  margin-bottom:6px;
+}
 
-    button:hover {
-      opacity: 0.9;
-    }
+.card-desc{
+  font-size:12px;
+  color:#7a877d;
+  line-height:1.5;
+  margin-bottom:13px;
+}
 
-    .delete-btn {
-      background: #b86b6b;
-      margin-left: 5px;
-    }
+/* ================= HOME ================= */
 
-    .task-item {
-      background: white;
-      border: 1px solid #e1e6df;
-      padding: 13px;
-      border-radius: 13px;
-      margin-top: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
+.welcome{
+  background:linear-gradient(135deg,#e2f4e4,#f3faef);
+  border:1px solid #d9ecd9;
+}
 
-    .task-info {
-      flex: 1;
-    }
+.welcome h2{
+  font-size:21px;
+  color:#315c39;
+  margin-bottom:7px;
+}
 
-    .task-info strong {
-      display: block;
-      margin-bottom: 4px;
-    }
+.welcome p{
+  font-size:13px;
+  line-height:1.6;
+  color:#607164;
+}
 
-    .task-info small {
-      color: #777;
-    }
+.quick-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
 
-    .step-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-      padding: 9px;
-      background: white;
-      border-radius: 10px;
-      border: 1px solid #e4e9e1;
-    }
+.quick-card{
+  border:0;
+  background:white;
+  padding:17px 13px;
+  border-radius:18px;
+  text-align:left;
+  box-shadow:0 4px 12px rgba(53,89,60,.07);
+  border:1px solid #edf3ed;
+  transition:.2s;
+}
 
-    .step-item input {
-      width: auto;
-      margin: 0;
-    }
+.quick-card:active{
+  transform:scale(.97);
+}
 
-    .priority-item {
-      background: white;
-      border: 1px solid #e4e9e1;
-      border-radius: 13px;
-      padding: 13px;
-      margin-top: 8px;
-    }
+.quick-icon{
+  font-size:25px;
+  margin-bottom:9px;
+}
 
-    .priority-label {
-      font-size: 13px;
-      color: #5f695e;
-      margin-top: 5px;
-    }
+.quick-card strong{
+  display:block;
+  font-size:14px;
+  color:#315c39;
+}
 
-    .mission {
-      text-align: center;
-      background: #fff8df;
-      border-radius: 18px;
-      padding: 20px;
-    }
+.quick-card span{
+  display:block;
+  font-size:11px;
+  color:#819087;
+  margin-top:4px;
+}
 
-    .mission-icon {
-      font-size: 40px;
-      margin-bottom: 8px;
-    }
+/* ================= PROGRESS ================= */
 
-    .mission-list {
-      text-align: left;
-      margin-top: 15px;
-    }
+.garden-card{
+  background:linear-gradient(135deg,#edf9ec,#dff1df);
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:15px;
+}
 
-    .mission-item {
-      background: white;
-      border: 1px solid #eadfba;
-      padding: 12px;
-      border-radius: 12px;
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+.garden-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .mission-item input {
-      width: auto;
-      margin: 0;
-    }
+.garden-icon{
+  font-size:43px;
+}
 
-    .reflection-saved {
-      background: #edf5e9;
-      border-radius: 15px;
-      padding: 15px;
-      margin-top: 15px;
-    }
+.progress-number{
+  font-size:28px;
+  font-weight:bold;
+  color:#397347;
+}
 
-    .reflection-saved h4 {
-      margin-bottom: 5px;
-      margin-top: 12px;
-    }
+.progress-label{
+  font-size:11px;
+  color:#718077;
+}
 
-    .reflection-saved h4:first-child {
-      margin-top: 0;
-    }
+.progress-bar{
+  height:10px;
+  background:#d0e2d1;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:15px;
+}
 
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 430px;
-      background: white;
-      border-top: 1px solid #e3e7e1;
-      display: flex;
-      justify-content: space-around;
-      padding: 10px 5px;
-      z-index: 100;
-    }
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:#5c9d64;
+  border-radius:20px;
+  transition:.3s;
+}
 
-    .bottom-nav button {
-      background: transparent;
-      color: #586155;
-      font-size: 12px;
-      padding: 5px;
-      margin: 0;
-    }
+/* ================= STATS ================= */
 
-    .empty {
-      color: #888;
-      font-size: 13px;
-      text-align: center;
-      padding: 10px;
-    }
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  margin-bottom:15px;
+}
 
-    .success-message {
-      background: #edf5e9;
-      color: #466044;
-      padding: 10px;
-      border-radius: 10px;
-      margin-top: 10px;
-      font-size: 13px;
-    }
+.stat{
+  background:white;
+  border-radius:16px;
+  padding:14px 8px;
+  text-align:center;
+  border:1px solid #edf3ed;
+}
 
-    @media (min-width: 700px) {
-      body {
-        padding-top: 20px;
-        padding-bottom: 20px;
-      }
+.stat strong{
+  display:block;
+  font-size:19px;
+  color:#3f7447;
+}
 
-      .app {
-        border-radius: 25px;
-        box-shadow: 0 5px 30px rgba(0,0,0,0.08);
-        overflow: hidden;
-      }
+.stat span{
+  font-size:10px;
+  color:#7b887f;
+}
 
-      .bottom-nav {
-        position: static;
-        transform: none;
-        max-width: 430px;
-        margin: auto;
-        border-top: none;
-        border-radius: 0 0 25px 25px;
-      }
-    }
-  </style>
+/* ================= INPUT ================= */
+
+.input-group{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+input,
+textarea{
+  width:100%;
+  border:1px solid #dce8de;
+  border-radius:12px;
+  padding:12px;
+  outline:none;
+  font-size:13px;
+  background:#fbfdfb;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+input:focus,
+textarea:focus{
+  border-color:#76aa7d;
+}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:11px 14px;
+  background:#4f8f5b;
+  color:white;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.btn:active{
+  transform:scale(.97);
+}
+
+.btn-secondary{
+  background:#e6f1e7;
+  color:#3f7047;
+}
+
+.btn-danger{
+  background:#f8e5e3;
+  color:#a44f46;
+}
+
+/* ================= TASK ================= */
+
+.task-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  background:#f8fbf8;
+  border-radius:13px;
+  margin-bottom:8px;
+  border:1px solid #edf3ed;
+}
+
+.task-item input[type="checkbox"]{
+  width:18px;
+  height:18px;
+}
+
+.task-content{
+  flex:1;
+}
+
+.task-content strong{
+  font-size:13px;
+  display:block;
+}
+
+.task-content small{
+  font-size:10px;
+  color:#849087;
+}
+
+.completed{
+  text-decoration:line-through;
+  opacity:.55;
+}
+
+/* ================= BREAKDOWN ================= */
+
+.step-list{
+  margin-top:12px;
+}
+
+.step-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px;
+  background:#f6faf6;
+  border-radius:10px;
+  margin-bottom:6px;
+  font-size:12px;
+}
+
+/* ================= PRIORITY ================= */
+
+.priority-item{
+  background:#f8fbf8;
+  padding:13px;
+  border-radius:14px;
+  margin-bottom:10px;
+  border:1px solid #edf3ed;
+}
+
+.priority-title{
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:9px;
+}
+
+.priority-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:6px;
+}
+
+.priority-buttons button{
+  border:0;
+  padding:8px 4px;
+  border-radius:9px;
+  font-size:9px;
+}
+
+.red{
+  background:#f7dddd;
+  color:#9d3f3f;
+}
+
+.yellow{
+  background:#f8efcf;
+  color:#896e22;
+}
+
+.green{
+  background:#dcefdc;
+  color:#417047;
+}
+
+/* ================= MISSION ================= */
+
+.mission-item{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  background:#f8fbf8;
+  padding:12px;
+  border-radius:13px;
+  margin-bottom:8px;
+  border:1px solid #edf3ed;
+}
+
+.mission-item input{
+  width:18px;
+}
+
+.mission-text{
+  flex:1;
+  font-size:12px;
+}
+
+.mission-done{
+  text-decoration:line-through;
+  opacity:.5;
+}
+
+/* ================= REFLECTION ================= */
+
+.reflection-question{
+  font-size:13px;
+  font-weight:bold;
+  color:#3c5d42;
+  margin:13px 0 7px;
+}
+
+.saved-reflection{
+  background:#f0f8f0;
+  padding:12px;
+  border-radius:12px;
+  margin-top:12px;
+  font-size:12px;
+  line-height:1.6;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+  text-align:center;
+  padding:20px 10px;
+  color:#89968d;
+  font-size:12px;
+}
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:480px;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(10px);
+  border-top:1px solid #e7eee8;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:8px 8px 10px;
+  z-index:100;
+}
+
+.nav-btn{
+  border:0;
+  background:transparent;
+  color:#89958d;
+  padding:6px 2px;
+  border-radius:13px;
+  font-size:10px;
+}
+
+.nav-icon{
+  display:block;
+  font-size:20px;
+  margin-bottom:3px;
+}
+
+.nav-btn.active{
+  color:#43804c;
+  background:#edf7ee;
+  font-weight:bold;
+}
+
+/* ================= DESKTOP ================= */
+
+@media(min-width:700px){
+  body{
+    padding:20px 0;
+  }
+
+  .app{
+    min-height:calc(100vh - 40px);
+    border-radius:25px;
+    overflow:hidden;
+    box-shadow:0 10px 40px rgba(40,70,45,.12);
+  }
+
+  .bottom-nav{
+    bottom:20px;
+    border-radius:18px;
+    width:440px;
+    border:1px solid #e2ebe3;
+    box-shadow:0 5px 20px rgba(40,70,45,.1);
+  }
+}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <!-- HEADER -->
-  <header>
-    <h1>🌱 Task Garden</h1>
-    <p>Tumbuhkan Kebiasaan, Selesaikan Tugas</p>
-  </header>
+<!-- ================= HEADER ================= -->
 
-  <div class="content">
-
-    <!-- GARDEN -->
-    <div class="garden-card">
-
-      <div class="garden-icon" id="gardenIcon">🌱</div>
-
-      <h2>Garden Progress</h2>
-
-      <p>
-        Setiap tugas yang kamu selesaikan membantu tamanmu tumbuh.
-      </p>
-
-      <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
+<header class="header">
+  <div class="header-top">
+    <div class="logo">
+      <div class="logo-icon">🌱</div>
+      <div>
+        <h1>Task Garden</h1>
+        <p>Tumbuhkan Kebiasaan, Selesaikan Tugas</p>
       </div>
-
-      <div class="progress-text" id="progressText">
-        0% selesai
-      </div>
-
     </div>
 
+    <div class="today" id="todayText">Hari ini</div>
+  </div>
+</header>
 
-    <!-- MY TASKS -->
-    <div class="section" id="tasksSection">
 
-      <h2>📝 My Tasks</h2>
+<!-- ================= HOME ================= -->
 
-      <div class="card">
+<section class="page active" id="homePage">
 
-        <h3>Tambahkan Tugas</h3>
+  <div class="welcome card">
+    <h2>Halo! 🌱</h2>
+    <p>
+      Selamat datang di Task Garden. Kelola tugas, tentukan prioritas,
+      pecah tugas menjadi langkah kecil, dan refleksikan kebiasaan belajarmu.
+    </p>
+  </div>
 
-        <input
-          type="text"
-          id="taskInput"
-          placeholder="Contoh: Menyelesaikan laporan BK"
-        >
-
-        <button onclick="addTask()">
-          + Tambah Tugas
-        </button>
-
+  <div class="garden-card">
+    <div class="garden-head">
+      <div>
+        <div class="progress-number" id="homeProgress">0%</div>
+        <div class="progress-label">Progress kebunmu</div>
       </div>
-
-      <div id="taskList"></div>
-
+      <div class="garden-icon">🌱</div>
     </div>
 
+    <div class="progress-bar">
+      <div class="progress-fill" id="homeProgressBar"></div>
+    </div>
+  </div>
 
-    <!-- BREAK IT DOWN -->
-    <div class="section">
-
-      <h2>🧩 Break It Down</h2>
-
-      <div class="card">
-
-        <h3>Pecah tugas besar menjadi langkah kecil</h3>
-
-        <input
-          type="text"
-          id="bigTaskInput"
-          placeholder="Contoh: Membuat makalah"
-        >
-
-        <button onclick="createBreakdown()">
-          Pecah Tugas
-        </button>
-
-      </div>
-
-      <div id="breakdownResult"></div>
-
+  <div class="stats">
+    <div class="stat">
+      <strong id="homeTotalTasks">0</strong>
+      <span>Total Task</span>
     </div>
 
-
-    <!-- PRIORITY CHECK -->
-    <div class="section">
-
-      <h2>🎯 Priority Check</h2>
-
-      <div class="card">
-
-        <h3>Tambahkan tugas yang ingin dicek</h3>
-
-        <input
-          type="text"
-          id="priorityInput"
-          placeholder="Contoh: Belajar untuk ujian"
-        >
-
-        <button onclick="addPriorityTask()">
-          + Tambah Tugas
-        </button>
-
-      </div>
-
-      <div id="priorityList"></div>
-
+    <div class="stat">
+      <strong id="homeCompletedTasks">0</strong>
+      <span>Selesai</span>
     </div>
 
+    <div class="stat">
+      <strong id="homeMissionCount">0</strong>
+      <span>Mission</span>
+    </div>
+  </div>
 
-    <!-- DAILY MISSION -->
-    <div class="section">
-
-      <h2>🌟 Daily Mission</h2>
-
-      <div class="mission">
-
-        <div class="mission-icon">
-          🎯
-        </div>
-
-        <p>
-          Buat misi kecil yang ingin kamu selesaikan hari ini.
-        </p>
-
-        <input
-          type="text"
-          id="missionInput"
-          placeholder="Contoh: Membaca 2 halaman materi"
-        >
-
-        <button onclick="addMission()">
-          + Tambah Mission
-        </button>
-
-        <div
-          class="mission-list"
-          id="missionList"
-        ></div>
-
-      </div>
-
+  <div class="card">
+    <div class="card-title">Menu Cepat</div>
+    <div class="card-desc">
+      Pilih fitur yang ingin kamu gunakan.
     </div>
 
+    <div class="quick-grid">
 
-    <!-- REFLECTION -->
-    <div class="section" id="reflectionSection">
+      <button class="quick-card" onclick="showPage('tasksPage')">
+        <div class="quick-icon">✓</div>
+        <strong>My Tasks</strong>
+        <span>Kelola tugas kuliah</span>
+      </button>
 
-      <h2>🌿 Reflection</h2>
+      <button class="quick-card" onclick="showPage('tasksPage'); setTimeout(()=>document.getElementById('breakdownInput').focus(),100)">
+        <div class="quick-icon">🧩</div>
+        <strong>Break It Down</strong>
+        <span>Pecah tugas besar</span>
+      </button>
 
-      <div class="card">
+      <button class="quick-card" onclick="showPage('tasksPage'); setTimeout(()=>document.getElementById('priorityInput').focus(),100)">
+        <div class="quick-icon">🎯</div>
+        <strong>Priority</strong>
+        <span>Tentukan prioritas</span>
+      </button>
 
-        <h3>
-          Luangkan waktu untuk melihat kembali kebiasaanmu.
-        </h3>
+      <button class="quick-card" onclick="showPage('gardenPage')">
+        <div class="quick-icon">🌿</div>
+        <strong>Garden</strong>
+        <span>Lihat perkembangan</span>
+      </button>
 
-        <p>
-          Jawab pertanyaan berikut sesuai pengalamanmu.
-        </p>
-
-        <label>
-          <strong>
-            1. Kebiasaan apa yang ingin kamu perbaiki?
-          </strong>
-        </label>
-
-        <textarea
-          id="reflectionHabit"
-          placeholder="Contoh: Saya ingin mengurangi kebiasaan menunda tugas."
-        ></textarea>
-
-
-        <label>
-          <strong>
-            2. Apa yang biasanya menghambatmu?
-          </strong>
-        </label>
-
-        <textarea
-          id="reflectionObstacle"
-          placeholder="Contoh: Media sosial atau terlalu banyak kegiatan."
-        ></textarea>
-
-
-        <label>
-          <strong>
-            3. Strategi apa yang ingin kamu coba?
-          </strong>
-        </label>
-
-        <textarea
-          id="reflectionStrategy"
-          placeholder="Contoh: Membagi tugas menjadi beberapa langkah kecil."
-        ></textarea>
-
-
-        <label>
-          <strong>
-            4. Manfaat apa yang kamu harapkan?
-          </strong>
-        </label>
-
-        <textarea
-          id="reflectionBenefit"
-          placeholder="Contoh: Saya dapat menyelesaikan tugas lebih teratur."
-        ></textarea>
-
-
-        <button onclick="saveReflection()">
-          💾 Simpan Reflection
-        </button>
-
-      </div>
-
-      <div id="reflectionResult"></div>
+      <button class="quick-card" onclick="showPage('reflectPage')">
+        <div class="quick-icon">💭</div>
+        <strong>Reflection</strong>
+        <span>Evaluasi kebiasaan</span>
+      </button>
 
     </div>
+  </div>
 
+</section>
+
+
+<!-- ================= TASKS ================= -->
+
+<section class="page" id="tasksPage">
+
+  <div class="page-title">
+    <h2>📋 Tasks</h2>
+    <p>Atur tugasmu sedikit demi sedikit.</p>
   </div>
 
 
-  <!-- BOTTOM NAV -->
-  <div class="bottom-nav">
+  <!-- MY TASKS -->
 
-    <button onclick="scrollToSection('tasksSection')">
-      📝<br>
-      Tasks
+  <div class="card">
+    <div class="card-title">My Tasks</div>
+    <div class="card-desc">
+      Tambahkan tugas yang ingin kamu kerjakan.
+    </div>
+
+    <div class="input-group">
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="Contoh: Membuat makalah BK"
+        onkeydown="if(event.key==='Enter') addTask()"
+      >
+
+      <button class="btn" onclick="addTask()">Tambah</button>
+    </div>
+
+    <div id="taskList"></div>
+  </div>
+
+
+  <!-- BREAK IT DOWN -->
+
+  <div class="card">
+    <div class="card-title">🧩 Break It Down</div>
+    <div class="card-desc">
+      Ubah tugas besar menjadi beberapa langkah kecil agar lebih mudah dimulai.
+    </div>
+
+    <div class="input-group">
+      <input
+        type="text"
+        id="breakdownInput"
+        placeholder="Contoh: Membuat makalah"
+        onkeydown="if(event.key==='Enter') createBreakdown()"
+      >
+
+      <button class="btn" onclick="createBreakdown()">Buat</button>
+    </div>
+
+    <div id="breakdownResult"></div>
+  </div>
+
+
+  <!-- PRIORITY -->
+
+  <div class="card">
+    <div class="card-title">🎯 Priority Check</div>
+    <div class="card-desc">
+      Tentukan tingkat prioritas setiap tugas yang kamu masukkan.
+    </div>
+
+    <div class="input-group">
+      <input
+        type="text"
+        id="priorityInput"
+        placeholder="Contoh: Deadline tugas besok"
+        onkeydown="if(event.key==='Enter') addPriorityTask()"
+      >
+
+      <button class="btn" onclick="addPriorityTask()">Tambah</button>
+    </div>
+
+    <div id="priorityList"></div>
+  </div>
+
+</section>
+
+
+<!-- ================= GARDEN ================= -->
+
+<section class="page" id="gardenPage">
+
+  <div class="page-title">
+    <h2>🌱 Garden</h2>
+    <p>Setiap langkah kecil membantu kebunmu tumbuh.</p>
+  </div>
+
+
+  <!-- GARDEN PROGRESS -->
+
+  <div class="garden-card">
+    <div class="garden-head">
+
+      <div>
+        <div class="progress-number" id="gardenProgress">0%</div>
+        <div class="progress-label">Task yang sudah selesai</div>
+      </div>
+
+      <div class="garden-icon" id="gardenEmoji">🌱</div>
+
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="gardenProgressBar"></div>
+    </div>
+
+    <div
+      style="font-size:12px;color:#66756a;margin-top:12px;line-height:1.5;"
+      id="gardenMessage"
+    >
+      Mulai dari satu langkah kecil hari ini.
+    </div>
+  </div>
+
+
+  <!-- DAILY MISSION -->
+
+  <div class="card">
+    <div class="card-title">🌿 Daily Mission</div>
+    <div class="card-desc">
+      Tambahkan beberapa target kecil yang ingin kamu lakukan hari ini.
+    </div>
+
+    <div class="input-group">
+      <input
+        type="text"
+        id="missionInput"
+        placeholder="Contoh: Membaca 10 halaman"
+        onkeydown="if(event.key==='Enter') addMission()"
+      >
+
+      <button class="btn" onclick="addMission()">Tambah</button>
+    </div>
+
+    <div id="missionList"></div>
+  </div>
+
+</section>
+
+
+<!-- ================= REFLECT ================= -->
+
+<section class="page" id="reflectPage">
+
+  <div class="page-title">
+    <h2>💭 Reflection</h2>
+    <p>Kenali kebiasaanmu dan tentukan langkah berikutnya.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="card-title">Refleksi Minggu Ini</div>
+
+    <div class="reflection-question">
+      1. Kebiasaan apa yang ingin kamu perbaiki?
+    </div>
+
+    <textarea
+      id="reflectionHabit"
+      placeholder="Contoh: Saya ingin mengurangi kebiasaan menunda tugas."
+    ></textarea>
+
+
+    <div class="reflection-question">
+      2. Apa yang biasanya menghambatmu?
+    </div>
+
+    <textarea
+      id="reflectionObstacle"
+      placeholder="Contoh: Terlalu sering membuka media sosial."
+    ></textarea>
+
+
+    <div class="reflection-question">
+      3. Strategi apa yang ingin kamu coba?
+    </div>
+
+    <textarea
+      id="reflectionStrategy"
+      placeholder="Contoh: Membuat daftar prioritas setiap pagi."
+    ></textarea>
+
+
+    <div class="reflection-question">
+      4. Apa manfaat yang kamu harapkan?
+    </div>
+
+    <textarea
+      id="reflectionBenefit"
+      placeholder="Contoh: Tugas lebih cepat selesai dan saya tidak terlalu terburu-buru."
+    ></textarea>
+
+    <button
+      class="btn"
+      style="width:100%;margin-top:12px;"
+      onclick="saveReflection()"
+    >
+      💾 Simpan Reflection
     </button>
 
-    <button onclick="scrollToSection('tasksSection')">
-      🌱<br>
-      Garden
-    </button>
-
-    <button onclick="scrollToSection('reflectionSection')">
-      🌿<br>
-      Reflect
-    </button>
+    <div id="savedReflection"></div>
 
   </div>
+
+</section>
+
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<nav class="bottom-nav">
+
+  <button
+    class="nav-btn active"
+    id="navHome"
+    onclick="showPage('homePage')"
+  >
+    <span class="nav-icon">⌂</span>
+    Home
+  </button>
+
+  <button
+    class="nav-btn"
+    id="navTasks"
+    onclick="showPage('tasksPage')"
+  >
+    <span class="nav-icon">✓</span>
+    Tasks
+  </button>
+
+  <button
+    class="nav-btn"
+    id="navGarden"
+    onclick="showPage('gardenPage')"
+  >
+    <span class="nav-icon">🌱</span>
+    Garden
+  </button>
+
+  <button
+    class="nav-btn"
+    id="navReflect"
+    onclick="showPage('reflectPage')"
+  >
+    <span class="nav-icon">💭</span>
+    Reflect
+  </button>
+
+</nav>
 
 </div>
 
 
 <script>
 
-  /* =====================================
-     MY TASKS
-  ===================================== */
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
-  let tasks =
-    JSON.parse(
-      localStorage.getItem("taskGardenTasks")
-    ) || [];
+function showPage(pageId){
 
+  const pages = document.querySelectorAll('.page');
 
-  function saveTasks() {
+  pages.forEach(page=>{
+    page.classList.remove('active');
+  });
 
-    localStorage.setItem(
-      "taskGardenTasks",
-      JSON.stringify(tasks)
-    );
+  const selected = document.getElementById(pageId);
 
+  if(selected){
+    selected.classList.add('active');
   }
 
+  const navButtons = document.querySelectorAll('.nav-btn');
 
-  function addTask() {
+  navButtons.forEach(btn=>{
+    btn.classList.remove('active');
+  });
 
-    const input =
-      document.getElementById("taskInput");
-
-    const taskName =
-      input.value.trim();
-
-    if (taskName === "") {
-
-      alert("Silakan tulis tugas terlebih dahulu.");
-
-      return;
-
-    }
-
-
-    tasks.push({
-
-      name: taskName,
-
-      completed: false
-
-    });
-
-
-    input.value = "";
-
-    saveTasks();
-
-    displayTasks();
-
-    updateGarden();
-
+  if(pageId === 'homePage'){
+    document.getElementById('navHome').classList.add('active');
   }
 
-
-  function displayTasks() {
-
-    const list =
-      document.getElementById("taskList");
-
-    list.innerHTML = "";
-
-
-    if (tasks.length === 0) {
-
-      list.innerHTML =
-        '<div class="empty">Belum ada tugas.</div>';
-
-      return;
-
-    }
-
-
-    tasks.forEach((task, index) => {
-
-      const item =
-        document.createElement("div");
-
-      item.className = "task-item";
-
-
-      item.innerHTML = `
-
-        <div class="task-info">
-
-          <strong>
-            ${task.completed ? "✅" : "⬜"}
-            ${task.name}
-          </strong>
-
-          <small>
-            ${task.completed
-              ? "Sudah selesai"
-              : "Belum selesai"}
-          </small>
-
-        </div>
-
-        <div>
-
-          <button
-            onclick="completeTask(${index})"
-          >
-            ${task.completed
-              ? "Batal"
-              : "Selesai"}
-          </button>
-
-          <button
-            class="delete-btn"
-            onclick="deleteTask(${index})"
-          >
-            Hapus
-          </button>
-
-        </div>
-
-      `;
-
-
-      list.appendChild(item);
-
-    });
-
+  if(pageId === 'tasksPage'){
+    document.getElementById('navTasks').classList.add('active');
   }
 
-
-  function completeTask(index) {
-
-    tasks[index].completed =
-      !tasks[index].completed;
-
-    saveTasks();
-
-    displayTasks();
-
-    updateGarden();
-
+  if(pageId === 'gardenPage'){
+    document.getElementById('navGarden').classList.add('active');
   }
 
-
-  function deleteTask(index) {
-
-    if (
-      confirm("Hapus tugas ini?")
-    ) {
-
-      tasks.splice(index, 1);
-
-      saveTasks();
-
-      displayTasks();
-
-      updateGarden();
-
-    }
-
+  if(pageId === 'reflectPage'){
+    document.getElementById('navReflect').classList.add('active');
   }
 
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
 
-  /* =====================================
-     GARDEN PROGRESS
-  ===================================== */
-
-  function updateGarden() {
-
-    const total =
-      tasks.length;
-
-    const completed =
-      tasks.filter(
-        task => task.completed
-      ).length;
+  updateHomeStats();
+}
 
 
-    let percentage = 0;
+/* =========================================================
+   DATE
+========================================================= */
+
+function updateDate(){
+
+  const date = new Date();
+
+  const options = {
+    day:'numeric',
+    month:'short'
+  };
+
+  document.getElementById('todayText').textContent =
+    date.toLocaleDateString('id-ID',options);
+
+}
 
 
-    if (total > 0) {
+/* =========================================================
+   MY TASKS
+========================================================= */
 
-      percentage =
-        Math.round(
-          (completed / total) * 100
-        );
-
-    }
+let tasks =
+  JSON.parse(localStorage.getItem('taskGardenTasks')) || [];
 
 
-    document.getElementById(
-      "progressBar"
-    ).style.width =
-      percentage + "%";
+function saveTasks(){
+
+  localStorage.setItem(
+    'taskGardenTasks',
+    JSON.stringify(tasks)
+  );
+
+}
 
 
-    document.getElementById(
-      "progressText"
-    ).innerText =
-      percentage + "% selesai";
+function addTask(){
 
+  const input =
+    document.getElementById('taskInput');
 
-    const gardenIcon =
-      document.getElementById(
-        "gardenIcon"
-      );
+  const value =
+    input.value.trim();
 
-
-    if (percentage === 0) {
-
-      gardenIcon.innerText = "🌱";
-
-    } else if (percentage < 30) {
-
-      gardenIcon.innerText = "🌿";
-
-    } else if (percentage < 60) {
-
-      gardenIcon.innerText = "🌷";
-
-    } else if (percentage < 90) {
-
-      gardenIcon.innerText = "🌳";
-
-    } else {
-
-      gardenIcon.innerText = "🌸";
-
-    }
-
+  if(!value){
+    return;
   }
 
+  tasks.push({
+    id:Date.now(),
+    title:value,
+    completed:false
+  });
 
-  /* =====================================
-     BREAK IT DOWN
-  ===================================== */
+  saveTasks();
 
-  function createBreakdown() {
+  input.value='';
 
-    const input =
-      document.getElementById(
-        "bigTaskInput"
-      );
+  displayTasks();
+  updateGarden();
+  updateHomeStats();
 
-    const task =
-      input.value.trim();
-
-
-    if (task === "") {
-
-      alert(
-        "Tulis tugas yang ingin dipecah terlebih dahulu."
-      );
-
-      return;
-
-    }
+}
 
 
-    const result =
-      document.getElementById(
-        "breakdownResult"
-      );
+function toggleTask(id){
+
+  const task =
+    tasks.find(item=>item.id===id);
+
+  if(!task){
+    return;
+  }
+
+  task.completed =
+    !task.completed;
+
+  saveTasks();
+
+  displayTasks();
+  updateGarden();
+  updateHomeStats();
+
+}
 
 
-    result.innerHTML = `
+function deleteTask(id){
 
-      <div class="card">
+  tasks =
+    tasks.filter(item=>item.id!==id);
 
-        <h3>
-          🌱 ${task}
-        </h3>
+  saveTasks();
 
-        <p>
-          Tambahkan langkah-langkah kecil agar tugas lebih mudah dimulai.
-        </p>
+  displayTasks();
+  updateGarden();
+  updateHomeStats();
 
-        <div id="steps"></div>
+}
+
+
+function displayTasks(){
+
+  const list =
+    document.getElementById('taskList');
+
+  if(tasks.length===0){
+
+    list.innerHTML =
+      '<div class="empty">Belum ada tugas. Tambahkan tugas pertamamu 🌱</div>';
+
+    return;
+  }
+
+  list.innerHTML =
+    tasks.map(task=>`
+
+      <div class="task-item">
 
         <input
-          type="text"
-          id="stepInput"
-          placeholder="Contoh: Mencari referensi"
+          type="checkbox"
+          ${task.completed?'checked':''}
+          onchange="toggleTask(${task.id})"
         >
 
-        <button onclick="addStep()">
-          + Tambah Langkah
+        <div class="task-content ${task.completed?'completed':''}">
+          <strong>${escapeHTML(task.title)}</strong>
+          <small>
+            ${task.completed?'Sudah selesai ✓':'Belum selesai'}
+          </small>
+        </div>
+
+        <button
+          class="btn btn-danger"
+          style="padding:7px 9px;"
+          onclick="deleteTask(${task.id})"
+        >
+          ×
         </button>
 
       </div>
 
-    `;
+    `).join('');
+
+}
 
 
-    input.value = "";
+/* =========================================================
+   BREAK IT DOWN
+========================================================= */
 
+let breakdownData =
+  JSON.parse(localStorage.getItem('taskGardenBreakdown')) || null;
+
+
+function createBreakdown(){
+
+  const input =
+    document.getElementById('breakdownInput');
+
+  const value =
+    input.value.trim();
+
+  if(!value){
+    return;
   }
 
+  breakdownData = {
+    title:value,
+    steps:[]
+  };
 
-  function addStep() {
+  localStorage.setItem(
+    'taskGardenBreakdown',
+    JSON.stringify(breakdownData)
+  );
 
-    const input =
-      document.getElementById(
-        "stepInput"
-      );
+  input.value='';
 
-    const step =
-      input.value.trim();
+  displayBreakdown();
 
-
-    if (step === "") {
-
-      alert(
-        "Tulis langkah terlebih dahulu."
-      );
-
-      return;
-
-    }
+}
 
 
-    const steps =
-      document.getElementById(
-        "steps"
-      );
+function addStep(){
+
+  if(!breakdownData){
+    return;
+  }
+
+  const input =
+    document.getElementById('stepInput');
+
+  const value =
+    input.value.trim();
+
+  if(!value){
+    return;
+  }
+
+  breakdownData.steps.push({
+    id:Date.now(),
+    text:value,
+    completed:false
+  });
+
+  localStorage.setItem(
+    'taskGardenBreakdown',
+    JSON.stringify(breakdownData)
+  );
+
+  input.value='';
+
+  displayBreakdown();
+
+}
 
 
-    const item =
-      document.createElement("div");
+function toggleStep(id){
+
+  if(!breakdownData){
+    return;
+  }
+
+  const step =
+    breakdownData.steps.find(item=>item.id===id);
+
+  if(step){
+    step.completed =
+      !step.completed;
+  }
+
+  localStorage.setItem(
+    'taskGardenBreakdown',
+    JSON.stringify(breakdownData)
+  );
+
+  displayBreakdown();
+
+}
 
 
-    item.className =
-      "step-item";
+function displayBreakdown(){
 
+  const result =
+    document.getElementById('breakdownResult');
 
-    item.innerHTML = `
+  if(!breakdownData){
 
-      <input
-        type="checkbox"
+    result.innerHTML='';
+    return;
+  }
+
+  result.innerHTML = `
+
+    <div
+      style="
+        background:#edf7ee;
+        padding:12px;
+        border-radius:13px;
+        margin-top:8px;
+      "
+    >
+
+      <strong
+        style="
+          font-size:13px;
+          color:#3c6742;
+        "
       >
-
-      <span>
-        ${step}
-      </span>
-
-    `;
-
-
-    steps.appendChild(item);
-
-    input.value = "";
-
-  }
-
-
-  /* =====================================
-     PRIORITY CHECK
-  ===================================== */
-
-  let priorityTasks =
-    JSON.parse(
-      localStorage.getItem(
-        "taskGardenPriorityTasks"
-      )
-    ) || [];
-
-
-  function savePriorityTasks() {
-
-    localStorage.setItem(
-      "taskGardenPriorityTasks",
-      JSON.stringify(priorityTasks)
-    );
-
-  }
-
-
-  function addPriorityTask() {
-
-    const input =
-      document.getElementById(
-        "priorityInput"
-      );
-
-    const task =
-      input.value.trim();
-
-
-    if (task === "") {
-
-      alert(
-        "Tulis tugas terlebih dahulu."
-      );
-
-      return;
-
-    }
-
-
-    priorityTasks.push({
-
-      name: task,
-
-      priority: ""
-
-    });
-
-
-    input.value = "";
-
-    savePriorityTasks();
-
-    displayPriorityTasks();
-
-  }
-
-
-  function displayPriorityTasks() {
-
-    const list =
-      document.getElementById(
-        "priorityList"
-      );
-
-
-    list.innerHTML = "";
-
-
-    if (priorityTasks.length === 0) {
-
-      list.innerHTML =
-        '<div class="empty">Belum ada tugas untuk dicek.</div>';
-
-      return;
-
-    }
-
-
-    priorityTasks.forEach(
-      (task, index) => {
-
-        const item =
-          document.createElement("div");
-
-
-        item.className =
-          "priority-item";
-
-
-        item.innerHTML = `
-
-          <strong>
-            ${task.name}
-          </strong>
-
-          <div class="priority-buttons">
-
-            <button
-              onclick="setPriority(
-                ${index},
-                '🔴 Penting & Mendesak'
-              )"
-            >
-              🔴 Penting & Mendesak
-            </button>
-
-            <button
-              onclick="setPriority(
-                ${index},
-                '🟡 Penting tapi Tidak Mendesak'
-              )"
-            >
-              🟡 Penting tapi Tidak Mendesak
-            </button>
-
-            <button
-              onclick="setPriority(
-                ${index},
-                '🟢 Prioritas Lebih Rendah'
-              )"
-            >
-              🟢 Prioritas Lebih Rendah
-            </button>
-
-          </div>
-
-          <div class="priority-label">
-
-            ${task.priority
-              ? "Pilihan: " + task.priority
-              : "Belum menentukan prioritas"}
-
-          </div>
-
-          <button
-            class="delete-btn"
-            onclick="deletePriorityTask(${index})"
-          >
-            Hapus
-          </button>
-
-        `;
-
-
-        list.appendChild(item);
-
-      }
-    );
-
-  }
-
-
-  function setPriority(
-    index,
-    priority
-  ) {
-
-    priorityTasks[index].priority =
-      priority;
-
-
-    savePriorityTasks();
-
-    displayPriorityTasks();
-
-  }
-
-
-  function deletePriorityTask(index) {
-
-    priorityTasks.splice(index, 1);
-
-    savePriorityTasks();
-
-    displayPriorityTasks();
-
-  }
-
-
-  /* =====================================
-     DAILY MISSION
-  ===================================== */
-
-  let missions =
-    JSON.parse(
-      localStorage.getItem(
-        "taskGardenMissions"
-      )
-    ) || [];
-
-
-  function saveMissions() {
-
-    localStorage.setItem(
-      "taskGardenMissions",
-      JSON.stringify(missions)
-    );
-
-  }
-
-
-  function addMission() {
-
-    const input =
-      document.getElementById(
-        "missionInput"
-      );
-
-
-    const mission =
-      input.value.trim();
-
-
-    if (mission === "") {
-
-      alert(
-        "Tulis mission terlebih dahulu."
-      );
-
-      return;
-
-    }
-
-
-    missions.push({
-
-      text: mission,
-
-      completed: false
-
-    });
-
-
-    input.value = "";
-
-    saveMissions();
-
-    displayMissions();
-
-  }
-
-
-  function displayMissions() {
-
-    const list =
-      document.getElementById(
-        "missionList"
-      );
-
-
-    list.innerHTML = "";
-
-
-    if (missions.length === 0) {
-
-      list.innerHTML =
-        '<div class="empty">Belum ada mission hari ini.</div>';
-
-      return;
-
-    }
-
-
-    missions.forEach(
-      (mission, index) => {
-
-        const item =
-          document.createElement("div");
-
-
-        item.className =
-          "mission-item";
-
-
-        item.innerHTML = `
-
-          <input
-            type="checkbox"
-            ${mission.completed ? "checked" : ""}
-            onchange="completeMission(${index})"
-          >
-
-          <span>
-            ${mission.completed
-              ? "✅ "
-              : "🎯 "}
-
-            ${mission.text}
-          </span>
-
-          <button
-            class="delete-btn"
-            onclick="deleteMission(${index})"
-          >
-            Hapus
-          </button>
-
-        `;
-
-
-        list.appendChild(item);
-
-      }
-    );
-
-  }
-
-
-  function completeMission(index) {
-
-    missions[index].completed =
-      !missions[index].completed;
-
-
-    saveMissions();
-
-    displayMissions();
-
-  }
-
-
-  function deleteMission(index) {
-
-    missions.splice(index, 1);
-
-    saveMissions();
-
-    displayMissions();
-
-  }
-
-
-  /* =====================================
-     REFLECTION
-  ===================================== */
-
-  function saveReflection() {
-
-    const habit =
-      document.getElementById(
-        "reflectionHabit"
-      ).value.trim();
-
-
-    const obstacle =
-      document.getElementById(
-        "reflectionObstacle"
-      ).value.trim();
-
-
-    const strategy =
-      document.getElementById(
-        "reflectionStrategy"
-      ).value.trim();
-
-
-    const benefit =
-      document.getElementById(
-        "reflectionBenefit"
-      ).value.trim();
-
-
-    if (
-      habit === "" ||
-      obstacle === "" ||
-      strategy === "" ||
-      benefit === ""
-    ) {
-
-      alert(
-        "Silakan lengkapi semua pertanyaan reflection."
-      );
-
-      return;
-
-    }
-
-
-    const reflection = {
-
-      habit: habit,
-
-      obstacle: obstacle,
-
-      strategy: strategy,
-
-      benefit: benefit
-
-    };
-
-
-    localStorage.setItem(
-      "taskGardenReflection",
-      JSON.stringify(reflection)
-    );
-
-
-    displayReflection();
-
-
-    alert(
-      "Reflection berhasil disimpan 🌱"
-    );
-
-  }
-
-
-  function displayReflection() {
-
-    const saved =
-      localStorage.getItem(
-        "taskGardenReflection"
-      );
-
-
-    const result =
-      document.getElementById(
-        "reflectionResult"
-      );
-
-
-    if (!saved) {
-
-      result.innerHTML = "";
-
-      return;
-
-    }
-
-
-    const reflection =
-      JSON.parse(saved);
-
-
-    result.innerHTML = `
-
-      <div class="reflection-saved">
-
-        <h4>
-          🌿 Reflection Terakhir
-        </h4>
-
-        <h4>
-          Kebiasaan yang ingin diperbaiki
-        </h4>
-
-        <p>
-          ${reflection.habit}
-        </p>
-
-        <h4>
-          Hambatan
-        </h4>
-
-        <p>
-          ${reflection.obstacle}
-        </p>
-
-        <h4>
-          Strategi yang ingin dicoba
-        </h4>
-
-        <p>
-          ${reflection.strategy}
-        </p>
-
-        <h4>
-          Manfaat yang diharapkan
-        </h4>
-
-        <p>
-          ${reflection.benefit}
-        </p>
+        ${escapeHTML(breakdownData.title)}
+      </strong>
+
+      <div class="step-list">
+
+        ${
+          breakdownData.steps.length===0
+          ?
+          '<div class="empty">Belum ada langkah.</div>'
+          :
+          breakdownData.steps.map(step=>`
+
+            <div class="step-item">
+
+              <input
+                type="checkbox"
+                ${step.completed?'checked':''}
+                onchange="toggleStep(${step.id})"
+              >
+
+              <span
+                style="
+                  ${step.completed?'text-decoration:line-through;opacity:.5;':''}
+                "
+              >
+                ${escapeHTML(step.text)}
+              </span>
+
+            </div>
+
+          `).join('')
+        }
 
       </div>
 
-    `;
+      <div class="input-group" style="margin-top:10px;margin-bottom:0;">
 
+        <input
+          type="text"
+          id="stepInput"
+          placeholder="Tambahkan langkah kecil..."
+          onkeydown="if(event.key==='Enter') addStep()"
+        >
+
+        <button
+          class="btn"
+          onclick="addStep()"
+        >
+          +
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   PRIORITY CHECK
+========================================================= */
+
+let priorityTasks =
+  JSON.parse(
+    localStorage.getItem('taskGardenPriorityTasks')
+  ) || [];
+
+
+function savePriorityTasks(){
+
+  localStorage.setItem(
+    'taskGardenPriorityTasks',
+    JSON.stringify(priorityTasks)
+  );
+
+}
+
+
+function addPriorityTask(){
+
+  const input =
+    document.getElementById('priorityInput');
+
+  const value =
+    input.value.trim();
+
+  if(!value){
+    return;
   }
 
+  priorityTasks.push({
+    id:Date.now(),
+    title:value,
+    priority:''
+  });
 
-  /* =====================================
-     NAVIGATION
-  ===================================== */
+  savePriorityTasks();
 
-  function scrollToSection(id) {
+  input.value='';
 
-    const section =
-      document.getElementById(id);
+  displayPriority();
+
+}
 
 
-    if (section) {
+function setPriority(id,priority){
 
-      section.scrollIntoView({
-        behavior: "smooth"
-      });
+  const task =
+    priorityTasks.find(item=>item.id===id);
 
-    }
-
+  if(!task){
+    return;
   }
 
+  task.priority =
+    priority;
 
-  /* =====================================
-     LOAD DATA
-  ===================================== */
+  savePriorityTasks();
 
-  displayTasks();
+  displayPriority();
 
-  updateGarden();
+}
 
-  displayPriorityTasks();
+
+function deletePriorityTask(id){
+
+  priorityTasks =
+    priorityTasks.filter(
+      item=>item.id!==id
+    );
+
+  savePriorityTasks();
+
+  displayPriority();
+
+}
+
+
+function displayPriority(){
+
+  const list =
+    document.getElementById('priorityList');
+
+  if(priorityTasks.length===0){
+
+    list.innerHTML =
+      '<div class="empty">Belum ada tugas untuk diprioritaskan.</div>';
+
+    return;
+  }
+
+  list.innerHTML =
+    priorityTasks.map(task=>`
+
+      <div class="priority-item">
+
+        <div class="priority-title">
+          ${escapeHTML(task.title)}
+        </div>
+
+        <div class="priority-buttons">
+
+          <button
+            class="red"
+            onclick="setPriority(${task.id},'Penting & Mendesak')"
+          >
+            🔴 Penting<br>& Mendesak
+          </button>
+
+          <button
+            class="yellow"
+            onclick="setPriority(${task.id},'Penting tapi Tidak Mendesak')"
+          >
+            🟡 Penting tapi<br>Tidak Mendesak
+          </button>
+
+          <button
+            class="green"
+            onclick="setPriority(${task.id},'Prioritas Lebih Rendah')"
+          >
+            🟢 Prioritas<br>Lebih Rendah
+          </button>
+
+        </div>
+
+        ${
+          task.priority
+          ?
+          `
+          <div
+            style="
+              margin-top:9px;
+              font-size:11px;
+              color:#4d7253;
+              background:#edf7ee;
+              padding:7px;
+              border-radius:8px;
+            "
+          >
+            Prioritas: ${escapeHTML(task.priority)}
+          </div>
+          `
+          :
+          ''
+        }
+
+        <button
+          class="btn btn-danger"
+          style="
+            margin-top:9px;
+            width:100%;
+            padding:8px;
+          "
+          onclick="deletePriorityTask(${task.id})"
+        >
+          Hapus
+        </button>
+
+      </div>
+
+    `).join('');
+
+}
+
+
+/* =========================================================
+   DAILY MISSION
+========================================================= */
+
+let missions =
+  JSON.parse(
+    localStorage.getItem('taskGardenMissions')
+  ) || [];
+
+
+function saveMissions(){
+
+  localStorage.setItem(
+    'taskGardenMissions',
+    JSON.stringify(missions)
+  );
+
+}
+
+
+function addMission(){
+
+  const input =
+    document.getElementById('missionInput');
+
+  const value =
+    input.value.trim();
+
+  if(!value){
+    return;
+  }
+
+  missions.push({
+    id:Date.now(),
+    title:value,
+    completed:false
+  });
+
+  saveMissions();
+
+  input.value='';
 
   displayMissions();
+  updateHomeStats();
+
+}
+
+
+function toggleMission(id){
+
+  const mission =
+    missions.find(item=>item.id===id);
+
+  if(!mission){
+    return;
+  }
+
+  mission.completed =
+    !mission.completed;
+
+  saveMissions();
+
+  displayMissions();
+  updateHomeStats();
+
+}
+
+
+function deleteMission(id){
+
+  missions =
+    missions.filter(
+      item=>item.id!==id
+    );
+
+  saveMissions();
+
+  displayMissions();
+  updateHomeStats();
+
+}
+
+
+function displayMissions(){
+
+  const list =
+    document.getElementById('missionList');
+
+  if(missions.length===0){
+
+    list.innerHTML =
+      '<div class="empty">Belum ada mission hari ini 🌱</div>';
+
+    return;
+  }
+
+  list.innerHTML =
+    missions.map(mission=>`
+
+      <div class="mission-item">
+
+        <input
+          type="checkbox"
+          ${mission.completed?'checked':''}
+          onchange="toggleMission(${mission.id})"
+        >
+
+        <div
+          class="mission-text ${mission.completed?'mission-done':''}"
+        >
+          ${escapeHTML(mission.title)}
+        </div>
+
+        <button
+          class="btn btn-danger"
+          style="padding:6px 9px;"
+          onclick="deleteMission(${mission.id})"
+        >
+          ×
+        </button>
+
+      </div>
+
+    `).join('');
+
+}
+
+
+/* =========================================================
+   GARDEN PROGRESS
+========================================================= */
+
+function updateGarden(){
+
+  const total =
+    tasks.length;
+
+  const completed =
+    tasks.filter(
+      task=>task.completed
+    ).length;
+
+  let progress = 0;
+
+  if(total>0){
+    progress =
+      Math.round(
+        (completed/total)*100
+      );
+  }
+
+  document.getElementById('gardenProgress').textContent =
+    progress + '%';
+
+  document.getElementById('gardenProgressBar').style.width =
+    progress + '%';
+
+
+  const emoji =
+    document.getElementById('gardenEmoji');
+
+  const message =
+    document.getElementById('gardenMessage');
+
+
+  if(progress===0){
+
+    emoji.textContent='🌱';
+
+    message.textContent =
+      'Mulai dari satu langkah kecil hari ini.';
+
+  }else if(progress<30){
+
+    emoji.textContent='🌿';
+
+    message.textContent =
+      'Kebunmu mulai tumbuh. Teruskan sedikit demi sedikit!';
+
+  }else if(progress<70){
+
+    emoji.textContent='🌳';
+
+    message.textContent =
+      'Bagus! Kebiasaanmu mulai menunjukkan perkembangan.';
+
+  }else if(progress<100){
+
+    emoji.textContent='🌳';
+
+    message.textContent =
+      'Hebat! Tinggal beberapa langkah lagi.';
+
+  }else{
+
+    emoji.textContent='🌸';
+
+    message.textContent =
+      'Semua tugas selesai. Kebunmu tumbuh dengan baik!';
+
+  }
+
+
+  document.getElementById('homeProgress').textContent =
+    progress + '%';
+
+  document.getElementById('homeProgressBar').style.width =
+    progress + '%';
+
+}
+
+
+/* =========================================================
+   HOME STATS
+========================================================= */
+
+function updateHomeStats(){
+
+  const total =
+    tasks.length;
+
+  const completed =
+    tasks.filter(
+      task=>task.completed
+    ).length;
+
+  document.getElementById(
+    'homeTotalTasks'
+  ).textContent = total;
+
+  document.getElementById(
+    'homeCompletedTasks'
+  ).textContent = completed;
+
+  document.getElementById(
+    'homeMissionCount'
+  ).textContent = missions.length;
+
+}
+
+
+/* =========================================================
+   REFLECTION
+========================================================= */
+
+let reflection =
+  JSON.parse(
+    localStorage.getItem('taskGardenReflection')
+  ) || null;
+
+
+function saveReflection(){
+
+  reflection = {
+
+    habit:
+      document.getElementById(
+        'reflectionHabit'
+      ).value.trim(),
+
+    obstacle:
+      document.getElementById(
+        'reflectionObstacle'
+      ).value.trim(),
+
+    strategy:
+      document.getElementById(
+        'reflectionStrategy'
+      ).value.trim(),
+
+    benefit:
+      document.getElementById(
+        'reflectionBenefit'
+      ).value.trim(),
+
+    savedAt:
+      new Date().toLocaleString('id-ID')
+
+  };
+
+
+  localStorage.setItem(
+    'taskGardenReflection',
+    JSON.stringify(reflection)
+  );
+
 
   displayReflection();
+
+  alert('Reflection berhasil disimpan 🌱');
+
+}
+
+
+function displayReflection(){
+
+  const container =
+    document.getElementById(
+      'savedReflection'
+    );
+
+  if(!reflection){
+    container.innerHTML='';
+    return;
+  }
+
+
+  document.getElementById(
+    'reflectionHabit'
+  ).value =
+    reflection.habit || '';
+
+  document.getElementById(
+    'reflectionObstacle'
+  ).value =
+    reflection.obstacle || '';
+
+  document.getElementById(
+    'reflectionStrategy'
+  ).value =
+    reflection.strategy || '';
+
+  document.getElementById(
+    'reflectionBenefit'
+  ).value =
+    reflection.benefit || '';
+
+
+  container.innerHTML = `
+
+    <div class="saved-reflection">
+
+      <strong>🌱 Reflection tersimpan</strong>
+
+      <br><br>
+
+      <strong>Kebiasaan:</strong><br>
+      ${escapeHTML(reflection.habit || '-')}
+
+      <br><br>
+
+      <strong>Hambatan:</strong><br>
+      ${escapeHTML(reflection.obstacle || '-')}
+
+      <br><br>
+
+      <strong>Strategi:</strong><br>
+      ${escapeHTML(reflection.strategy || '-')}
+
+      <br><br>
+
+      <strong>Manfaat:</strong><br>
+      ${escapeHTML(reflection.benefit || '-')}
+
+      <br><br>
+
+      <small>
+        Disimpan: ${escapeHTML(reflection.savedAt || '')}
+      </small>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   SECURITY / TEXT
+========================================================= */
+
+function escapeHTML(text){
+
+  return String(text)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+
+}
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  function(){
+
+    updateDate();
+
+    displayTasks();
+
+    displayBreakdown();
+
+    displayPriority();
+
+    displayMissions();
+
+    displayReflection();
+
+    updateGarden();
+
+    updateHomeStats();
+
+  }
+);
 
 </script>
 
