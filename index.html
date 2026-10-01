@@ -454,6 +454,122 @@
     updateGarden();
 
   }
+  function checkPriority() {
+
+  const input = document.getElementById("priorityTask");
+  const result = document.getElementById("priorityResult");
+
+  const task = input.value.trim();
+
+  if (task === "") {
+
+    alert("Tulis nama tugas terlebih dahulu ya 😊");
+    return;
+
+  }
+
+  result.innerHTML = `
+
+    <div style="
+      background:#f7faf5;
+      padding:15px;
+      border-radius:15px;
+      border:1px solid #dfe8dc;
+    ">
+
+      <h3 style="margin-bottom:10px;">
+        🎯 Pilih Prioritas
+      </h3>
+
+      <p style="
+        font-size:13px;
+        color:#667466;
+        margin-bottom:12px;
+      ">
+        Tugas: <strong>${task}</strong>
+      </p>
+
+      <button
+        onclick="setPriority('${task}', 'Penting & Mendesak')"
+        style="
+          width:100%;
+          margin-bottom:8px;
+          background:#d66b6b;
+        "
+      >
+        🔴 Penting & Mendesak
+      </button>
+
+      <button
+        onclick="setPriority('${task}', 'Penting tapi Tidak Mendesak')"
+        style="
+          width:100%;
+          margin-bottom:8px;
+          background:#d6a84f;
+        "
+      >
+        🟡 Penting tapi Tidak Mendesak
+      </button>
+
+      <button
+        onclick="setPriority('${task}', 'Prioritas Lebih Rendah')"
+        style="
+          width:100%;
+          background:#6fa36f;
+        "
+      >
+        🟢 Prioritas Lebih Rendah
+      </button>
+
+    </div>
+
+  `;
+
+  input.value = "";
+
+}
+
+
+function setPriority(task, priority) {
+
+  const result = document.getElementById("priorityResult");
+
+  result.innerHTML = `
+
+    <div style="
+      background:#eef7e9;
+      padding:15px;
+      border-radius:15px;
+      text-align:center;
+    ">
+
+      <div style="font-size:35px;margin-bottom:8px;">
+        🌱
+      </div>
+
+      <h3>
+        Prioritas ditentukan
+      </h3>
+
+      <p style="
+        margin-top:8px;
+        font-size:14px;
+      ">
+        <strong>${task}</strong>
+      </p>
+
+      <p style="
+        margin-top:6px;
+        color:#5d765d;
+      ">
+        ${priority}
+      </p>
+
+    </div>
+
+  `;
+
+}
 function createBreakdown() {
 
   const input = document.getElementById("bigTask");
