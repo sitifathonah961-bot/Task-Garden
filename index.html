@@ -249,7 +249,42 @@
 
     <div class="menu-grid">
 <div class="breakdown" style="margin-top:20px;">
+<div class="priority" style="margin-top:25px;">
 
+  <h2>🎯 Priority Check</h2>
+
+  <p style="
+    font-size:14px;
+    color:#667466;
+    margin-bottom:15px;
+  ">
+    Tentukan prioritas tugas berdasarkan tingkat kepentingannya.
+  </p>
+
+  <input
+    type="text"
+    id="priorityTask"
+    placeholder="Contoh: Tugas presentasi BK"
+    style="
+      width:100%;
+      padding:13px;
+      border:1px solid #ccd8c9;
+      border-radius:12px;
+      margin-bottom:12px;
+      font-size:14px;
+    "
+  >
+
+  <button
+    onclick="checkPriority()"
+    style="width:100%;"
+  >
+    🎯 Tentukan Prioritas
+  </button>
+
+  <div id="priorityResult" style="margin-top:15px;"></div>
+
+</div>
   <h2>✂️ Break It Down</h2>
 
   <p style="font-size:14px;color:#667466;margin-bottom:15px;">
