@@ -122,8 +122,7 @@
     }
 
     input,
-    textarea,
-    select {
+    textarea {
       width: 100%;
       padding: 12px;
       margin-top: 8px;
@@ -135,13 +134,12 @@
     }
 
     textarea {
-      min-height: 100px;
+      min-height: 90px;
       resize: vertical;
     }
 
     input:focus,
-    textarea:focus,
-    select:focus {
+    textarea:focus {
       border-color: #6b8e68;
     }
 
@@ -163,17 +161,6 @@
     .delete-btn {
       background: #b86b6b;
       margin-left: 5px;
-    }
-
-    .priority-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .priority-buttons button {
-      width: 100%;
     }
 
     .task-item {
@@ -217,6 +204,20 @@
       margin: 0;
     }
 
+    .priority-item {
+      background: white;
+      border: 1px solid #e4e9e1;
+      border-radius: 13px;
+      padding: 13px;
+      margin-top: 8px;
+    }
+
+    .priority-label {
+      font-size: 13px;
+      color: #5f695e;
+      margin-top: 5px;
+    }
+
     .mission {
       text-align: center;
       background: #fff8df;
@@ -229,8 +230,25 @@
       margin-bottom: 8px;
     }
 
-    .mission button {
-      margin-top: 12px;
+    .mission-list {
+      text-align: left;
+      margin-top: 15px;
+    }
+
+    .mission-item {
+      background: white;
+      border: 1px solid #eadfba;
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mission-item input {
+      width: auto;
+      margin: 0;
     }
 
     .reflection-saved {
@@ -242,7 +260,7 @@
 
     .reflection-saved h4 {
       margin-bottom: 5px;
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     .reflection-saved h4:first-child {
@@ -272,15 +290,20 @@
       margin: 0;
     }
 
-    .bottom-nav button:hover {
-      color: #6b8e68;
-    }
-
     .empty {
       color: #888;
       font-size: 13px;
       text-align: center;
       padding: 10px;
+    }
+
+    .success-message {
+      background: #edf5e9;
+      color: #466044;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-size: 13px;
     }
 
     @media (min-width: 700px) {
@@ -319,8 +342,9 @@
 
   <div class="content">
 
-    <!-- GARDEN PROGRESS -->
+    <!-- GARDEN -->
     <div class="garden-card">
+
       <div class="garden-icon" id="gardenIcon">🌱</div>
 
       <h2>Garden Progress</h2>
@@ -336,6 +360,7 @@
       <div class="progress-text" id="progressText">
         0% selesai
       </div>
+
     </div>
 
 
@@ -398,7 +423,7 @@
 
       <div class="card">
 
-        <h3>Tentukan prioritas tugas</h3>
+        <h3>Tambahkan tugas yang ingin dicek</h3>
 
         <input
           type="text"
@@ -406,13 +431,13 @@
           placeholder="Contoh: Belajar untuk ujian"
         >
 
-        <button onclick="checkPriority()">
-          Cek Prioritas
+        <button onclick="addPriorityTask()">
+          + Tambah Tugas
         </button>
 
       </div>
 
-      <div id="priorityResult"></div>
+      <div id="priorityList"></div>
 
     </div>
 
@@ -428,18 +453,24 @@
           🎯
         </div>
 
-        <p id="missionText">
-          Selesaikan satu tugas kecil yang bisa kamu mulai hari ini.
+        <p>
+          Buat misi kecil yang ingin kamu selesaikan hari ini.
         </p>
 
-        <button onclick="completeMission()">
-          ✓ Selesai
+        <input
+          type="text"
+          id="missionInput"
+          placeholder="Contoh: Membaca 2 halaman materi"
+        >
+
+        <button onclick="addMission()">
+          + Tambah Mission
         </button>
 
-        <p
-          id="missionStatus"
-          style="margin-top:10px;font-size:13px;"
-        ></p>
+        <div
+          class="mission-list"
+          id="missionList"
+        ></div>
 
       </div>
 
@@ -453,13 +484,14 @@
 
       <div class="card">
 
-        <h3>Luangkan waktu untuk melihat kembali kebiasaanmu.</h3>
+        <h3>
+          Luangkan waktu untuk melihat kembali kebiasaanmu.
+        </h3>
 
         <p>
-          Jawab pertanyaan berikut dengan jujur sesuai pengalamanmu.
+          Jawab pertanyaan berikut sesuai pengalamanmu.
         </p>
 
-        <!-- PERTANYAAN 1 -->
         <label>
           <strong>
             1. Kebiasaan apa yang ingin kamu perbaiki?
@@ -472,7 +504,6 @@
         ></textarea>
 
 
-        <!-- PERTANYAAN 2 -->
         <label>
           <strong>
             2. Apa yang biasanya menghambatmu?
@@ -481,11 +512,10 @@
 
         <textarea
           id="reflectionObstacle"
-          placeholder="Contoh: Media sosial, malas memulai, atau terlalu banyak kegiatan."
+          placeholder="Contoh: Media sosial atau terlalu banyak kegiatan."
         ></textarea>
 
 
-        <!-- PERTANYAAN 3 -->
         <label>
           <strong>
             3. Strategi apa yang ingin kamu coba?
@@ -498,7 +528,6 @@
         ></textarea>
 
 
-        <!-- PERTANYAAN 4 -->
         <label>
           <strong>
             4. Manfaat apa yang kamu harapkan?
@@ -507,7 +536,7 @@
 
         <textarea
           id="reflectionBenefit"
-          placeholder="Contoh: Saya bisa menyelesaikan tugas lebih teratur dan tidak terburu-buru."
+          placeholder="Contoh: Saya dapat menyelesaikan tugas lebih teratur."
         ></textarea>
 
 
@@ -524,7 +553,7 @@
   </div>
 
 
-  <!-- BOTTOM NAVIGATION -->
+  <!-- BOTTOM NAV -->
   <div class="bottom-nav">
 
     <button onclick="scrollToSection('tasksSection')">
@@ -549,20 +578,25 @@
 
 <script>
 
-  /* =========================
+  /* =====================================
      MY TASKS
-  ========================= */
+  ===================================== */
 
-  let tasks = JSON.parse(
-    localStorage.getItem("taskGardenTasks")
-  ) || [];
+  let tasks =
+    JSON.parse(
+      localStorage.getItem("taskGardenTasks")
+    ) || [];
+
 
   function saveTasks() {
+
     localStorage.setItem(
       "taskGardenTasks",
       JSON.stringify(tasks)
     );
+
   }
+
 
   function addTask() {
 
@@ -573,14 +607,22 @@
       input.value.trim();
 
     if (taskName === "") {
+
       alert("Silakan tulis tugas terlebih dahulu.");
+
       return;
+
     }
 
+
     tasks.push({
+
       name: taskName,
+
       completed: false
+
     });
+
 
     input.value = "";
 
@@ -589,6 +631,7 @@
     displayTasks();
 
     updateGarden();
+
   }
 
 
@@ -599,13 +642,16 @@
 
     list.innerHTML = "";
 
+
     if (tasks.length === 0) {
 
       list.innerHTML =
         '<div class="empty">Belum ada tugas.</div>';
 
       return;
+
     }
+
 
     tasks.forEach((task, index) => {
 
@@ -614,24 +660,32 @@
 
       item.className = "task-item";
 
+
       item.innerHTML = `
+
         <div class="task-info">
 
           <strong>
-            ${task.completed ? "✅ " : "⬜ "}
+            ${task.completed ? "✅" : "⬜"}
             ${task.name}
           </strong>
 
           <small>
-            ${task.completed ? "Sudah selesai" : "Belum selesai"}
+            ${task.completed
+              ? "Sudah selesai"
+              : "Belum selesai"}
           </small>
 
         </div>
 
         <div>
 
-          <button onclick="completeTask(${index})">
-            ${task.completed ? "Batal" : "Selesai"}
+          <button
+            onclick="completeTask(${index})"
+          >
+            ${task.completed
+              ? "Batal"
+              : "Selesai"}
           </button>
 
           <button
@@ -642,11 +696,14 @@
           </button>
 
         </div>
+
       `;
+
 
       list.appendChild(item);
 
     });
+
   }
 
 
@@ -660,6 +717,7 @@
     displayTasks();
 
     updateGarden();
+
   }
 
 
@@ -676,24 +734,29 @@
       displayTasks();
 
       updateGarden();
+
     }
+
   }
 
 
-  /* =========================
+  /* =====================================
      GARDEN PROGRESS
-  ========================= */
+  ===================================== */
 
   function updateGarden() {
 
-    const total = tasks.length;
+    const total =
+      tasks.length;
 
     const completed =
       tasks.filter(
         task => task.completed
       ).length;
 
+
     let percentage = 0;
+
 
     if (total > 0) {
 
@@ -704,20 +767,24 @@
 
     }
 
+
     document.getElementById(
       "progressBar"
     ).style.width =
       percentage + "%";
+
 
     document.getElementById(
       "progressText"
     ).innerText =
       percentage + "% selesai";
 
+
     const gardenIcon =
       document.getElementById(
         "gardenIcon"
       );
+
 
     if (percentage === 0) {
 
@@ -744,9 +811,9 @@
   }
 
 
-  /* =========================
+  /* =====================================
      BREAK IT DOWN
-  ========================= */
+  ===================================== */
 
   function createBreakdown() {
 
@@ -758,6 +825,7 @@
     const task =
       input.value.trim();
 
+
     if (task === "") {
 
       alert(
@@ -765,12 +833,15 @@
       );
 
       return;
+
     }
+
 
     const result =
       document.getElementById(
         "breakdownResult"
       );
+
 
     result.innerHTML = `
 
@@ -781,7 +852,7 @@
         </h3>
 
         <p>
-          Tambahkan langkah-langkah kecil agar tugas terasa lebih mudah dimulai.
+          Tambahkan langkah-langkah kecil agar tugas lebih mudah dimulai.
         </p>
 
         <div id="steps"></div>
@@ -800,7 +871,9 @@
 
     `;
 
+
     input.value = "";
+
   }
 
 
@@ -814,6 +887,7 @@
     const step =
       input.value.trim();
 
+
     if (step === "") {
 
       alert(
@@ -821,24 +895,28 @@
       );
 
       return;
+
     }
+
 
     const steps =
       document.getElementById(
         "steps"
       );
 
+
     const item =
       document.createElement("div");
 
+
     item.className =
       "step-item";
+
 
     item.innerHTML = `
 
       <input
         type="checkbox"
-        onchange="updateGarden()"
       >
 
       <span>
@@ -847,17 +925,37 @@
 
     `;
 
+
     steps.appendChild(item);
 
     input.value = "";
+
   }
 
 
-  /* =========================
+  /* =====================================
      PRIORITY CHECK
-  ========================= */
+  ===================================== */
 
-  function checkPriority() {
+  let priorityTasks =
+    JSON.parse(
+      localStorage.getItem(
+        "taskGardenPriorityTasks"
+      )
+    ) || [];
+
+
+  function savePriorityTasks() {
+
+    localStorage.setItem(
+      "taskGardenPriorityTasks",
+      JSON.stringify(priorityTasks)
+    );
+
+  }
+
+
+  function addPriorityTask() {
 
     const input =
       document.getElementById(
@@ -867,6 +965,7 @@
     const task =
       input.value.trim();
 
+
     if (task === "") {
 
       alert(
@@ -874,134 +973,306 @@
       );
 
       return;
+
     }
 
-    const result =
-      document.getElementById(
-        "priorityResult"
-      );
 
-    result.innerHTML = `
+    priorityTasks.push({
 
-      <div class="card">
+      name: task,
 
-        <h3>
-          🎯 ${task}
-        </h3>
+      priority: ""
 
-        <p>
-          Menurutmu, tugas ini termasuk kategori mana?
-        </p>
+    });
 
-        <div class="priority-buttons">
-
-          <button
-            onclick="setPriority('🔴 Penting & Mendesak')"
-          >
-            🔴 Penting & Mendesak
-          </button>
-
-          <button
-            onclick="setPriority('🟡 Penting tapi Tidak Mendesak')"
-          >
-            🟡 Penting tapi Tidak Mendesak
-          </button>
-
-          <button
-            onclick="setPriority('🟢 Prioritas Lebih Rendah')"
-          >
-            🟢 Prioritas Lebih Rendah
-          </button>
-
-        </div>
-
-        <div
-          id="priorityFeedback"
-          style="margin-top:15px;"
-        ></div>
-
-      </div>
-
-    `;
 
     input.value = "";
+
+    savePriorityTasks();
+
+    displayPriorityTasks();
+
   }
 
 
-  function setPriority(priority) {
+  function displayPriorityTasks() {
 
-    const feedback =
+    const list =
       document.getElementById(
-        "priorityFeedback"
+        "priorityList"
       );
 
-    feedback.innerHTML = `
 
-      <p>
-        <strong>
-          Pilihanmu: ${priority}
-        </strong>
-      </p>
-
-      <p style="margin-top:8px;">
-        Gunakan hasil ini sebagai bahan pertimbangan
-        untuk menentukan langkah berikutnya.
-      </p>
-
-    `;
-  }
+    list.innerHTML = "";
 
 
-  /* =========================
-     DAILY MISSION
-  ========================= */
+    if (priorityTasks.length === 0) {
 
-  let missionCompleted =
-    localStorage.getItem(
-      "taskGardenMission"
-    ) === "true";
+      list.innerHTML =
+        '<div class="empty">Belum ada tugas untuk dicek.</div>';
 
-
-  function completeMission() {
-
-    missionCompleted = true;
-
-    localStorage.setItem(
-      "taskGardenMission",
-      "true"
-    );
-
-    updateMission();
-
-    updateGarden();
-  }
-
-
-  function updateMission() {
-
-    const status =
-      document.getElementById(
-        "missionStatus"
-      );
-
-    if (missionCompleted) {
-
-      status.innerText =
-        "🎉 Mission hari ini sudah selesai!";
-
-    } else {
-
-      status.innerText =
-        "Belum selesai. Yuk mulai dari satu langkah kecil.";
+      return;
 
     }
 
+
+    priorityTasks.forEach(
+      (task, index) => {
+
+        const item =
+          document.createElement("div");
+
+
+        item.className =
+          "priority-item";
+
+
+        item.innerHTML = `
+
+          <strong>
+            ${task.name}
+          </strong>
+
+          <div class="priority-buttons">
+
+            <button
+              onclick="setPriority(
+                ${index},
+                '🔴 Penting & Mendesak'
+              )"
+            >
+              🔴 Penting & Mendesak
+            </button>
+
+            <button
+              onclick="setPriority(
+                ${index},
+                '🟡 Penting tapi Tidak Mendesak'
+              )"
+            >
+              🟡 Penting tapi Tidak Mendesak
+            </button>
+
+            <button
+              onclick="setPriority(
+                ${index},
+                '🟢 Prioritas Lebih Rendah'
+              )"
+            >
+              🟢 Prioritas Lebih Rendah
+            </button>
+
+          </div>
+
+          <div class="priority-label">
+
+            ${task.priority
+              ? "Pilihan: " + task.priority
+              : "Belum menentukan prioritas"}
+
+          </div>
+
+          <button
+            class="delete-btn"
+            onclick="deletePriorityTask(${index})"
+          >
+            Hapus
+          </button>
+
+        `;
+
+
+        list.appendChild(item);
+
+      }
+    );
+
   }
 
 
-  /* =========================
+  function setPriority(
+    index,
+    priority
+  ) {
+
+    priorityTasks[index].priority =
+      priority;
+
+
+    savePriorityTasks();
+
+    displayPriorityTasks();
+
+  }
+
+
+  function deletePriorityTask(index) {
+
+    priorityTasks.splice(index, 1);
+
+    savePriorityTasks();
+
+    displayPriorityTasks();
+
+  }
+
+
+  /* =====================================
+     DAILY MISSION
+  ===================================== */
+
+  let missions =
+    JSON.parse(
+      localStorage.getItem(
+        "taskGardenMissions"
+      )
+    ) || [];
+
+
+  function saveMissions() {
+
+    localStorage.setItem(
+      "taskGardenMissions",
+      JSON.stringify(missions)
+    );
+
+  }
+
+
+  function addMission() {
+
+    const input =
+      document.getElementById(
+        "missionInput"
+      );
+
+
+    const mission =
+      input.value.trim();
+
+
+    if (mission === "") {
+
+      alert(
+        "Tulis mission terlebih dahulu."
+      );
+
+      return;
+
+    }
+
+
+    missions.push({
+
+      text: mission,
+
+      completed: false
+
+    });
+
+
+    input.value = "";
+
+    saveMissions();
+
+    displayMissions();
+
+  }
+
+
+  function displayMissions() {
+
+    const list =
+      document.getElementById(
+        "missionList"
+      );
+
+
+    list.innerHTML = "";
+
+
+    if (missions.length === 0) {
+
+      list.innerHTML =
+        '<div class="empty">Belum ada mission hari ini.</div>';
+
+      return;
+
+    }
+
+
+    missions.forEach(
+      (mission, index) => {
+
+        const item =
+          document.createElement("div");
+
+
+        item.className =
+          "mission-item";
+
+
+        item.innerHTML = `
+
+          <input
+            type="checkbox"
+            ${mission.completed ? "checked" : ""}
+            onchange="completeMission(${index})"
+          >
+
+          <span>
+            ${mission.completed
+              ? "✅ "
+              : "🎯 "}
+
+            ${mission.text}
+          </span>
+
+          <button
+            class="delete-btn"
+            onclick="deleteMission(${index})"
+          >
+            Hapus
+          </button>
+
+        `;
+
+
+        list.appendChild(item);
+
+      }
+    );
+
+  }
+
+
+  function completeMission(index) {
+
+    missions[index].completed =
+      !missions[index].completed;
+
+
+    saveMissions();
+
+    displayMissions();
+
+  }
+
+
+  function deleteMission(index) {
+
+    missions.splice(index, 1);
+
+    saveMissions();
+
+    displayMissions();
+
+  }
+
+
+  /* =====================================
      REFLECTION
-  ========================= */
+  ===================================== */
 
   function saveReflection() {
 
@@ -1010,15 +1281,18 @@
         "reflectionHabit"
       ).value.trim();
 
+
     const obstacle =
       document.getElementById(
         "reflectionObstacle"
       ).value.trim();
 
+
     const strategy =
       document.getElementById(
         "reflectionStrategy"
       ).value.trim();
+
 
     const benefit =
       document.getElementById(
@@ -1038,6 +1312,7 @@
       );
 
       return;
+
     }
 
 
@@ -1062,6 +1337,7 @@
 
     displayReflection();
 
+
     alert(
       "Reflection berhasil disimpan 🌱"
     );
@@ -1076,16 +1352,19 @@
         "taskGardenReflection"
       );
 
+
     const result =
       document.getElementById(
         "reflectionResult"
       );
+
 
     if (!saved) {
 
       result.innerHTML = "";
 
       return;
+
     }
 
 
@@ -1109,7 +1388,6 @@
           ${reflection.habit}
         </p>
 
-
         <h4>
           Hambatan
         </h4>
@@ -1118,7 +1396,6 @@
           ${reflection.obstacle}
         </p>
 
-
         <h4>
           Strategi yang ingin dicoba
         </h4>
@@ -1126,7 +1403,6 @@
         <p>
           ${reflection.strategy}
         </p>
-
 
         <h4>
           Manfaat yang diharapkan
@@ -1143,14 +1419,15 @@
   }
 
 
-  /* =========================
+  /* =====================================
      NAVIGATION
-  ========================= */
+  ===================================== */
 
   function scrollToSection(id) {
 
     const section =
       document.getElementById(id);
+
 
     if (section) {
 
@@ -1163,15 +1440,17 @@
   }
 
 
-  /* =========================
+  /* =====================================
      LOAD DATA
-  ========================= */
+  ===================================== */
 
   displayTasks();
 
   updateGarden();
 
-  updateMission();
+  displayPriorityTasks();
+
+  displayMissions();
 
   displayReflection();
 
