@@ -1,4 +1,4 @@
-const CACHE_NAME = "task-garden-v11";
+const CACHE_NAME = "task-garden-v12";
 const APP_SHELL = [
   "./",
   "./index.html",

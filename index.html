@@ -93,6 +93,180 @@ button{
   border-radius:20px;
 }
 
+/* ================= FINAL LOOK ================= */
+
+body{
+  background:linear-gradient(180deg,#eaf5ec 0%,#f4f9f4 55%,#edf6ee 100%);
+}
+
+.app{
+  box-shadow:0 0 35px rgba(52,91,60,.10);
+  overflow:hidden;
+}
+
+.header{
+  position:relative;
+  overflow:hidden;
+}
+
+.header::after{
+  content:"";
+  position:absolute;
+  width:170px;
+  height:170px;
+  border-radius:50%;
+  right:-70px;
+  top:-85px;
+  background:rgba(255,255,255,.10);
+}
+
+.user-greeting{
+  margin-top:18px;
+  position:relative;
+  z-index:1;
+}
+
+.user-greeting .hello{
+  font-size:13px;
+  opacity:.88;
+}
+
+.user-greeting .name{
+  font-size:25px;
+  font-weight:800;
+  margin-top:3px;
+  letter-spacing:-.3px;
+}
+
+.name-edit{
+  border:0;
+  background:rgba(255,255,255,.18);
+  color:white;
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:11px;
+  margin-top:9px;
+}
+
+.welcome{
+  position:relative;
+  overflow:hidden;
+}
+
+.welcome::after{
+  content:"🌿";
+  position:absolute;
+  right:14px;
+  bottom:-8px;
+  font-size:55px;
+  opacity:.16;
+}
+
+.quick-card:hover{
+  transform:translateY(-2px);
+}
+
+.garden-card{
+  position:relative;
+  overflow:hidden;
+}
+
+.garden-card::after{
+  content:"🌼";
+  position:absolute;
+  right:12px;
+  bottom:-12px;
+  font-size:52px;
+  opacity:.15;
+}
+
+/* Welcome name modal */
+.name-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(35,57,40,.52);
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:9999;
+}
+
+.name-overlay.hidden{display:none;}
+
+.name-modal{
+  width:min(430px,100%);
+  background:#fafffa;
+  border-radius:28px;
+  padding:26px 22px 22px;
+  box-shadow:0 20px 60px rgba(22,45,27,.25);
+  text-align:center;
+  animation:popIn .25s ease-out;
+}
+
+.name-plant{
+  width:70px;
+  height:70px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#dff3e1,#eef8e9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:38px;
+  margin:0 auto 14px;
+}
+
+.name-modal h2{
+  color:#315c39;
+  font-size:22px;
+  margin-bottom:7px;
+}
+
+.name-modal p{
+  color:#708077;
+  font-size:13px;
+  line-height:1.55;
+  margin-bottom:17px;
+}
+
+.name-modal input{
+  width:100%;
+  border:1px solid #d8e8da;
+  background:white;
+  border-radius:15px;
+  padding:13px 14px;
+  outline:none;
+  font-size:14px;
+  color:#29422f;
+}
+
+.name-modal input:focus{
+  border-color:#76ad7e;
+  box-shadow:0 0 0 3px rgba(118,173,126,.13);
+}
+
+.name-modal .btn{
+  width:100%;
+  margin-top:10px;
+}
+
+.name-note{
+  font-size:10px !important;
+  margin:10px 0 0 !important;
+  color:#93a097 !important;
+}
+
+@keyframes popIn{
+  from{opacity:0;transform:translateY(10px) scale(.98)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto !important;transition:none !important;animation:none !important;}
+}
+
 /* ================= PAGE ================= */
 
 .page{
@@ -730,6 +904,18 @@ textarea:focus{
 
 <body>
 
+<!-- ================= USER NAME ================= -->
+<div class="name-overlay hidden" id="nameOverlay" aria-hidden="true">
+  <div class="name-modal" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
+    <div class="name-plant">🌱</div>
+    <h2 id="nameModalTitle">Kenalan dulu, yuk! 👋</h2>
+    <p>Masukkan namamu supaya Task Garden bisa menyapamu secara personal.</p>
+    <input id="userNameInput" type="text" maxlength="30" autocomplete="name" placeholder="Contoh: Sifa">
+    <button class="btn" type="button" onclick="saveUserName()">Mulai Berkebun 🌷</button>
+    <p class="name-note">Nama disimpan hanya di perangkat ini.</p>
+  </div>
+</div>
+
 <div class="app">
 
 <!-- ================= HEADER ================= -->
@@ -746,6 +932,12 @@ textarea:focus{
 
     <div class="today" id="todayText">Hari ini</div>
   </div>
+
+  <div class="user-greeting">
+    <div class="hello">Selamat datang kembali 👋</div>
+    <div class="name" id="headerUserName">Teman Task Garden</div>
+    <button class="name-edit" type="button" onclick="changeUserName()">✏️ Ganti nama</button>
+  </div>
 </header>
 
 
@@ -754,7 +946,7 @@ textarea:focus{
 <section class="page active" id="homePage">
 
   <div class="welcome card">
-    <h2>Halo! 🌱</h2>
+    <h2 id="welcomeUserTitle">Halo! 🌱</h2>
     <p>
       Selamat datang di Task Garden. Kelola tugas, tentukan prioritas,
       pecah tugas menjadi langkah kecil, dan refleksikan kebiasaan belajarmu.
@@ -1336,6 +1528,79 @@ function showPage(pageId){
   });
 
   updateHomeStats();
+}
+
+
+/* =========================================================
+   USER NAME
+========================================================= */
+
+function cleanUserName(name){
+  return name.replace(/\s+/g,' ').trim().slice(0,30);
+}
+
+function updateUserNameUI(){
+  const name = localStorage.getItem('taskGardenUserName') || '';
+  const safeName = name || 'Teman Task Garden';
+  const headerName = document.getElementById('headerUserName');
+  const welcomeTitle = document.getElementById('welcomeUserTitle');
+
+  if(headerName) headerName.textContent = name ? safeName : 'Teman Task Garden';
+  if(welcomeTitle) welcomeTitle.textContent = name ? `Halo, ${safeName}! 👋` : 'Halo! 🌱';
+}
+
+function openNameModal(){
+  const overlay = document.getElementById('nameOverlay');
+  const input = document.getElementById('userNameInput');
+  if(!overlay || !input) return;
+
+  input.value = localStorage.getItem('taskGardenUserName') || '';
+  overlay.classList.remove('hidden');
+  overlay.setAttribute('aria-hidden','false');
+  setTimeout(()=>input.focus(),80);
+}
+
+function closeNameModal(){
+  const overlay = document.getElementById('nameOverlay');
+  if(!overlay) return;
+  overlay.classList.add('hidden');
+  overlay.setAttribute('aria-hidden','true');
+}
+
+function saveUserName(){
+  const input = document.getElementById('userNameInput');
+  if(!input) return;
+
+  const name = cleanUserName(input.value);
+  if(!name){
+    input.focus();
+    alert('Masukkan nama dulu ya. 🌱');
+    return;
+  }
+
+  localStorage.setItem('taskGardenUserName', name);
+  updateUserNameUI();
+  closeNameModal();
+}
+
+function changeUserName(){
+  openNameModal();
+}
+
+function initUserName(){
+  updateUserNameUI();
+
+  const savedName = localStorage.getItem('taskGardenUserName');
+  if(!savedName){
+    openNameModal();
+  }
+
+  const input = document.getElementById('userNameInput');
+  if(input){
+    input.addEventListener('keydown',(event)=>{
+      if(event.key === 'Enter') saveUserName();
+    });
+  }
 }
 
 
@@ -2407,6 +2672,7 @@ function openGoogleEvaluation(){
     }
   });
 })();
+initUserName();
 </script>
 
 </body>
