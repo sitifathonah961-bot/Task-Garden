@@ -674,6 +674,58 @@ textarea:focus{
   }
 }
 </style>
+
+  <meta name="theme-color" content="#5f9366">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Task Garden">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+<style id="step11-pwa-style">
+  .pwa-status{
+    margin:10px 0 0;
+    padding:9px 12px;
+    border-radius:12px;
+    background:#f4f8f4;
+    color:#45634a;
+    font-size:12px;
+    text-align:center;
+    border:1px solid #e2ebe3;
+  }
+  .pwa-install{
+    display:none;
+    width:100%;
+    margin-top:10px;
+  }
+  .pwa-install.show{display:block;}
+  .offline-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:8px;
+    padding:5px 9px;
+    border-radius:999px;
+    background:#edf7ee;
+    color:#3c6742;
+    font-size:11px;
+    font-weight:600;
+  }
+  .offline-badge.offline{
+    background:#fff7e8;
+    color:#8a641f;
+  }
+  @media(max-width:699px){
+    .app{min-height:100dvh;}
+    .header{padding-top:max(14px, env(safe-area-inset-top));}
+    .bottom-nav{
+      padding-bottom:max(8px, env(safe-area-inset-bottom));
+    }
+    input, textarea, button, select{font-size:16px;}
+  }
+</style>
+
 </head>
 
 <body>
@@ -707,6 +759,16 @@ textarea:focus{
       Selamat datang di Task Garden. Kelola tugas, tentukan prioritas,
       pecah tugas menjadi langkah kecil, dan refleksikan kebiasaan belajarmu.
     </p>
+  </div>
+
+
+  <div class="card">
+    <div class="card-title">📱 Task Garden</div>
+    <div class="card-desc">
+      Bisa digunakan seperti aplikasi dan tetap membantu saat koneksi sedang tidak stabil.
+    </div>
+    <div id="pwaStatus" class="pwa-status">Menyiapkan mode aplikasi…</div>
+    <button id="installButton" class="btn pwa-install" type="button">📲 Tambahkan ke Layar Utama</button>
   </div>
 
   <div class="garden-card">
@@ -2286,6 +2348,65 @@ function openGoogleEvaluation(){
 }
 
 
+</script>
+
+
+<script>
+(function(){
+  let deferredInstallPrompt = null;
+
+  function updateOnlineStatus(){
+    const el = document.getElementById('pwaStatus');
+    if(!el) return;
+    if(navigator.onLine){
+      el.innerHTML = '🟢 Online · Data tugas tersimpan di perangkat.';
+      el.classList.remove('offline');
+    }else{
+      el.innerHTML = '🟡 Offline · Fitur utama Task Garden tetap bisa digunakan.';
+      el.classList.add('offline');
+    }
+  }
+
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+
+  window.addEventListener('beforeinstallprompt', (event)=>{
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    const button = document.getElementById('installButton');
+    if(button) button.classList.add('show');
+  });
+
+  window.addEventListener('appinstalled', ()=>{
+    deferredInstallPrompt = null;
+    const button = document.getElementById('installButton');
+    if(button) button.classList.remove('show');
+    const el = document.getElementById('pwaStatus');
+    if(el) el.innerHTML = '✅ Task Garden sudah ditambahkan sebagai aplikasi.';
+  });
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    updateOnlineStatus();
+
+    const button = document.getElementById('installButton');
+    if(button){
+      button.addEventListener('click', async ()=>{
+        if(!deferredInstallPrompt){
+          alert('Jika tombol instalasi belum muncul, gunakan menu browser lalu pilih “Tambahkan ke layar utama” atau “Install app”.');
+          return;
+        }
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        button.classList.remove('show');
+      });
+    }
+
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    }
+  });
+})();
 </script>
 
 </body>
